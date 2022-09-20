@@ -117,6 +117,7 @@ void VisualizarEscena()
    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
    CError();
 
+  
    // visualizar la escena actual
    escenas[ind_escena_act]->visualizarGL( cv );
    CError();
@@ -486,7 +487,8 @@ void BucleEventosGLFW()
       // 1. visualizar escena 
 
       if ( revisualizar_escena )      //  si ha cambiado algo:
-      {                               //
+      {  
+                                    //
          VisualizarEscena();          //     dibujar la escena
          revisualizar_escena = false; //     evitar que se redibuje continuamente
       }

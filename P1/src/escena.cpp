@@ -112,12 +112,11 @@ void Escena::visualizarGL( ContextoVis & cv )
    Objeto3D * objeto = objetos[ind_objeto_actual] ; assert( objeto != nullptr );
 
    // COMPLETAR: Práctica 1: visualizar el objeto actual ('objeto')
-
+   objeto->visualizarGL(cv);
 
    // Visualizar las aristas del objeto, si procede (es decir: en modo relleno, con 
    // visualización de aristas activada y siempre que no estemos en el 
-   // 'modo de selección' de la prác.5)
-
+   // 'modo de selección' de la prác.5) 
    if ( cv.dibujar_aristas && cv.modo_visu == ModosVisu::relleno && ! cv.modo_seleccion )
    {
       // desactivar iluminación y texturas (podrían estarlo a partir de prác. 4)
@@ -139,7 +138,6 @@ void Escena::visualizarGL( ContextoVis & cv )
       cv.cauce->fijarColor(colorN);
 
       cv.modo_visu = ModosVisu::lineas;
-
       objeto->visualizarGeomGL(cv);
    }
    

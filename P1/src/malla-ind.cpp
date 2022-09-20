@@ -67,8 +67,6 @@ void MallaInd::calcularNormales()
 
 void MallaInd::visualizarGL( ContextoVis & cv )
 {
-
-
    using namespace std ;
    assert( cv.cauce != nullptr );
    CError();
@@ -113,9 +111,12 @@ void MallaInd::visualizarGL( ContextoVis & cv )
    else // si el VAO ya está creado
       glBindVertexArray( nombre_vao ); // activar el VAO
 
+   std::cout<<"gl triangulo size :"<<triangulos.size()<<std::endl;
+
+
    // COMPLETAR: práctica 1: visualizar con 'glDrawElements' y desactivar VAO.
-   glDrawElements(GL_TRIANGLES,triangulos.size(),GL_UNSIGNED_INT,&triangulos);
-   glBindVertexArray( nombre_vao ); 
+   glDrawElements(GL_TRIANGLE_STRIP,triangulos.size(),GL_UNSIGNED_INT,0);
+   glBindVertexArray( 0 ); 
 
    // restaurar el color previamente fijado
    cv.cauce->fijarColor( color_previo );
@@ -128,7 +129,6 @@ void MallaInd::visualizarGL( ContextoVis & cv )
 
 void MallaInd::visualizarGeomGL( ContextoVis & cv )
 {
-   // cout<<"DIOS AQUI SI QUE ENTRA COÑOOOO"<<endl;
    // COMPLETAR: práctica 1: asegurarnos de que el VAO de geometría está creado y activado
    // ....
    if(nombre_vao_geo == 0) // si el VAO no esta creado
@@ -145,9 +145,10 @@ void MallaInd::visualizarGeomGL( ContextoVis & cv )
    else // si el VAO ya está creado
       glBindVertexArray( nombre_vao_geo ); // activar el VAO
 
+  // std::cout<<"gl triangulo size :"<<triangulos.size()<<std::endl;
    // COMPLETAR: práctica 1: visualizar con 'glDrawElements' y desactivar VAO.
-   glDrawElements(GL_TRIANGLES,triangulos.size(),GL_UNSIGNED_INT,&triangulos);
-   glBindVertexArray( nombre_vao_geo ); 
+   glDrawElements(GL_TRIANGLE_STRIP,triangulos.size(),GL_UNSIGNED_INT,0);
+   glBindVertexArray( 0 ); 
 
    // COMPLETAR: práctica 1. Visualizar la malla y desactivar VAO
    // ....
