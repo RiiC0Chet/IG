@@ -115,7 +115,7 @@ void MallaInd::visualizarGL( ContextoVis & cv )
 
 
    // COMPLETAR: práctica 1: visualizar con 'glDrawElements' y desactivar VAO.
-   glDrawElements(GL_TRIANGLE_STRIP,triangulos.size(),GL_UNSIGNED_INT,0);
+   glDrawElements(GL_TRIANGLES,triangulos.size()*3,GL_UNSIGNED_INT,0);
    glBindVertexArray( 0 ); 
 
    // restaurar el color previamente fijado
@@ -147,7 +147,7 @@ void MallaInd::visualizarGeomGL( ContextoVis & cv )
 
   // std::cout<<"gl triangulo size :"<<triangulos.size()<<std::endl;
    // COMPLETAR: práctica 1: visualizar con 'glDrawElements' y desactivar VAO.
-   glDrawElements(GL_TRIANGLE_STRIP,triangulos.size(),GL_UNSIGNED_INT,0);
+   glDrawElements(GL_TRIANGLES,triangulos.size()*3,GL_UNSIGNED_INT,0);
    glBindVertexArray( 0 ); 
 
    // COMPLETAR: práctica 1. Visualizar la malla y desactivar VAO

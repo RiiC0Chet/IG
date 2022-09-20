@@ -217,6 +217,7 @@ Escena1::Escena1()
    //     objetos.push_back( new .... )
    // .........
 
+   objetos.push_back( new CuboTejado() );
 
    cout << "hecho." << endl << flush ;
 }
