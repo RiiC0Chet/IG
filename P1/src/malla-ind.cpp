@@ -93,6 +93,11 @@ void MallaInd::visualizarGL( ContextoVis & cv )
    //  funciones 'CrearVAO', 'CrearVBOAtrib' y 'CrearVBOInd'.
    //
 
+   if(nombre_vao == 0)
+   {
+      nombre_vao = CrearVAO();
+      CrearVBOAtrib(ind_atrib_posiciones,vertices);
+   }
 
    // COMPLETAR: práctica 1: visualizar con 'glDrawElements' y desactivar VAO.
 
