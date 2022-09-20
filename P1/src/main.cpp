@@ -76,7 +76,7 @@ void InicializaOpenGLCuadro()
    glGetFloatv( GL_SMOOTH_LINE_WIDTH_RANGE, rango ); CError();
    // cout << "ancho de lineas deseado == " << ancho_lineas << endl ;
    // cout << "maximo ancho de lineas permitido " << rango[1] << endl ;
-   glLineWidth( std::min( ancho_lineas, rango[1] ) );         
+   //glLineWidth( std::min( ancho_lineas, rango[1] ) );         
    CError();
 
    // establece el tamaño de los puntos, el máximo posible no mayor a 'ancho_puntos'
