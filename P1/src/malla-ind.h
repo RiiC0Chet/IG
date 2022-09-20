@@ -37,7 +37,8 @@ class MallaInd : public Objeto3D
              nombre_vbo_col = 0 , // nombre del VBO de colores, si hay colores, si no 0 
              nombre_vbo_nor = 0 , // nombre del VBO de normales, si hay normales, si no 0 
              nombre_vbo_cct = 0 ; // nombre del VBO de coords de text., si hay, si no 0
-             
+
+      GLenum nombre_vao_geo     = 0 ; // nombre del VAO geometria
 
 
 

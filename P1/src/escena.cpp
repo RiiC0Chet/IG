@@ -72,6 +72,23 @@ void Escena::visualizarGL( ContextoVis & cv )
    // ...................
 
 
+   // Comprobamos que tipo de modo de visualizacion tiene
+   switch(cv.modo_visu)
+   {
+      case ModosVisu::puntos:
+         glPolygonMode(GL_FRONT_AND_BACK,GL_POINT);
+      break;
+
+      case ModosVisu::lineas:
+         glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
+      break;
+
+      case ModosVisu::relleno:
+         glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
+      break;
+   }
+   
+
    CError();
 
    if ( cv.iluminacion )
@@ -114,7 +131,16 @@ void Escena::visualizarGL( ContextoVis & cv )
       //      - fijar el modo de polígonos a modo 'lineas'
       // 
       // ...........
+      
+      // Creamos la tupla de color negro
+      Tupla3f 
+      colorN            = { 0.0, 0.0, 0.0}; // color actual para visualización sin tabla de colores
 
+      cv.cauce->fijarColor(colorN);
+
+      cv.modo_visu = ModosVisu::lineas;
+
+      objeto->visualizarGeomGL(cv);
    }
    
 

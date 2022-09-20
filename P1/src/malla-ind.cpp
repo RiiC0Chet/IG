@@ -93,14 +93,29 @@ void MallaInd::visualizarGL( ContextoVis & cv )
    //  funciones 'CrearVAO', 'CrearVBOAtrib' y 'CrearVBOInd'.
    //
 
-   if(nombre_vao == 0)
+   if(nombre_vao == 0) // si el VAO no esta creado
    {
+      // creamos y activamos el VAO
       nombre_vao = CrearVAO();
+      
+      // después se añade el VBO con la tabla de coordenadas de posición
       CrearVBOAtrib(ind_atrib_posiciones,vertices);
+
+      //se añade el VBO con la tabla de índices (la tabla de triángulos)
+      if (triangulos.size() >0) CrearVBOInd( triangulos );
+
+      // finalmente se añaden al VAO los VBOs con tablas de atributos (opcionaes) que haya
+      if (col_ver.size() >0) CrearVBOAtrib( ind_atrib_colores, col_ver );
+      if (nor_ver.size() >0) CrearVBOAtrib( ind_atrib_normales, nor_ver );
+         //if (nor_tri.size() >0) CrearVBOAtrib( ind_atrib_normales, nor_tri );
+      if (cc_tt_ver.size()>0) CrearVBOAtrib( ind_atrib_coord_text, cc_tt_ver);
    }
+   else // si el VAO ya está creado
+      glBindVertexArray( nombre_vao ); // activar el VAO
 
    // COMPLETAR: práctica 1: visualizar con 'glDrawElements' y desactivar VAO.
-
+   glDrawElements(GL_TRIANGLES,triangulos.size(),GL_UNSIGNED_INT,&triangulos);
+   glBindVertexArray( nombre_vao ); 
 
    // restaurar el color previamente fijado
    cv.cauce->fijarColor( color_previo );
@@ -113,9 +128,26 @@ void MallaInd::visualizarGL( ContextoVis & cv )
 
 void MallaInd::visualizarGeomGL( ContextoVis & cv )
 {
+   // cout<<"DIOS AQUI SI QUE ENTRA COÑOOOO"<<endl;
    // COMPLETAR: práctica 1: asegurarnos de que el VAO de geometría está creado y activado
    // ....
+   if(nombre_vao_geo == 0) // si el VAO no esta creado
+   {
+      // creamos y activamos el VAO
+      nombre_vao_geo = CrearVAO();
+      
+      // después se añade el VBO con la tabla de coordenadas de posición
+      CrearVBOAtrib(ind_atrib_posiciones,vertices);
 
+      //se añade el VBO con la tabla de índices (la tabla de triángulos)
+      if (triangulos.size() >0) CrearVBOInd( triangulos );
+   }
+   else // si el VAO ya está creado
+      glBindVertexArray( nombre_vao_geo ); // activar el VAO
+
+   // COMPLETAR: práctica 1: visualizar con 'glDrawElements' y desactivar VAO.
+   glDrawElements(GL_TRIANGLES,triangulos.size(),GL_UNSIGNED_INT,&triangulos);
+   glBindVertexArray( nombre_vao_geo ); 
 
    // COMPLETAR: práctica 1. Visualizar la malla y desactivar VAO
    // ....
