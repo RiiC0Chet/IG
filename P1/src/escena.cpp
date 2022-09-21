@@ -136,8 +136,9 @@ void Escena::visualizarGL( ContextoVis & cv )
       colorN            = { 0.0, 0.0, 0.0}; // color actual para visualización sin tabla de colores
 
       cv.cauce->fijarColor(colorN);
+      //cauce->fijarColor(colorN);
 
-      cv.modo_visu = ModosVisu::lineas;
+      glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
       objeto->visualizarGeomGL(cv);
    }
    
@@ -218,6 +219,10 @@ Escena1::Escena1()
    // .........
 
    objetos.push_back( new CuboTejado() );
+
+   objetos.push_back( new Tetraedro() );
+
+   objetos.push_back( new CuboColores() );
 
    cout << "hecho." << endl << flush ;
 }

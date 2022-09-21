@@ -136,14 +136,41 @@ void MallaInd::visualizarGeomGL( ContextoVis & cv )
       // creamos y activamos el VAO
       nombre_vao_geo = CrearVAO();
       
+      // No hace falta ninguno de estos realmente, ya que los VBO estos ya se crearon en el visualGL
+      // y como este metodo siempre se llama despues del anterior ya estaran creados
+
       // después se añade el VBO con la tabla de coordenadas de posición
       CrearVBOAtrib(ind_atrib_posiciones,vertices);
 
       //se añade el VBO con la tabla de índices (la tabla de triángulos)
       if (triangulos.size() >0) CrearVBOInd( triangulos );
+      
+      // Activamos VBO
+     // glBindBuffer(GL_ARRAY_BUFFER, nombre_vbo_tri);
+      //glBindBuffer(GL_ARRAY_BUFFER, nombre_vbo_pos);
+      //glVertexAttribPointer(nombre_vbo_tri, 3, GL_UNSIGNED_INT, GL_FALSE, 0, 0);
+      //glVertexAttribPointer(ind_atrib_posiciones, 3,GL_FLOAT , GL_FALSE, 0, 0);
+
+      //glEnableVertexAttribArray(ind_atrib);
+      //glEnableVertexAttribArray(ind_atrib_posiciones);
+
+      // 2. calcular parámetros no independientes
+
+      //glBindBuffer( GL_ARRAY_BUFFER, ind_atrib_posiciones ); 
+
+      // 5. establece formato y dirección de inicio en el VBO
+      //glVertexAttribPointer( ind_atrib_posiciones, 3, GL_FLOAT, GL_FALSE, 0, 0 );
+      
+      // 6. habilita la tabla, hacer que no haya ningun VBO activo
+      //glEnableVertexAttribArray( ind_atrib_posiciones );
+      //glBindBuffer( GL_ARRAY_BUFFER, 0 );
+
    }
    else // si el VAO ya está creado
       glBindVertexArray( nombre_vao_geo ); // activar el VAO
+
+
+
 
   // std::cout<<"gl triangulo size :"<<triangulos.size()<<std::endl;
    // COMPLETAR: práctica 1: visualizar con 'glDrawElements' y desactivar VAO.
@@ -242,5 +269,67 @@ CuboTejado::CuboTejado()
       } ;
 
 }
+
 // -----------------------------------------------------------------------------------------------
 
+Tetraedro::Tetraedro()
+:  MallaInd( "Tetraedro 4 vértices" )
+{
+
+   vertices =
+      {  { -1.0, -1.0, -1.0 }, // 1
+         { -1.0, -1.0, +1.0 }, // 2
+         { -1.0, +1.0, -1.0 }, // 3 
+      } ;
+
+
+
+   triangulos =
+      {  
+         {0,1,3}, {0,1,2}, {0,2,3}, {1,2,3}
+      } ;
+      ponerColor({0.0,0.0,0.0});
+
+}
+
+// -----------------------------------------------------------------------------------------------
+
+CuboColores::CuboColores()
+:  MallaInd( "cubo 8 vértices" )
+{
+
+   vertices =
+      {  { -1.0, -1.0, -1.0 }, // 0
+         { -1.0, -1.0, +1.0 }, // 1
+         { -1.0, +1.0, -1.0 }, // 2
+         { -1.0, +1.0, +1.0 }, // 3
+         { +1.0, -1.0, -1.0 }, // 4
+         { +1.0, -1.0, +1.0 }, // 5
+         { +1.0, +1.0, -1.0 }, // 6
+         { +1.0, +1.0, +1.0 }, // 7
+      } ;
+
+
+
+   triangulos =
+      {  {0,1,3}, {0,3,2}, // X-
+         {4,7,5}, {4,6,7}, // X+ (+4)
+
+         {0,5,1}, {0,4,5}, // Y-
+         {2,3,7}, {2,7,6}, // Y+ (+2)
+
+         {0,6,4}, {0,2,6}, // Z-
+         {1,5,7}, {1,7,3}  // Z+ (+1)
+      } ;
+   
+   col_ver =
+      {  { 0.0, 0.0, 0.0 }, // 0
+         { 0.0, 0.0, +1.0 }, // 1
+         { 0.0, +1.0, 0.0 }, // 2
+         { 0.0, +1.0, +1.0 }, // 3
+         { +1.0, 0.0, 0.0 }, // 4
+         { +1.0, 0.0, +1.0 }, // 5
+         { +1.0, +1.0, 0.0 }, // 6
+         { +1.0, +1.0, +1.0 }, // 7
+      } ;
+}
