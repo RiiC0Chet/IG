@@ -333,3 +333,68 @@ CuboColores::CuboColores()
          { +1.0, +1.0, +1.0 }, // 7
       } ;
 }
+
+// -----------------------------------------------------------------------------------------------
+
+
+EstrellaZ::EstrellaZ(int n)
+:  MallaInd( "EstrellaZ" )
+{
+   assert(n>1);
+   float grados = 360/n;
+   float sum_grados = grados;
+   vertices = {{0.5, 0.5, 0}}; // El 0 es el centro
+   float sum_grados_interno = (grados/2);
+   col_ver.push_back({0,0,0});
+
+   // converting degrees to radians
+   float pasar_a_radian = 3.14159/180;
+
+   float x;
+   float y;
+
+   for(int i=0; i < n; i++)
+   {                       // Puntas de la estrella
+      
+      x = (cos(sum_grados*pasar_a_radian)/2) + 0.5;
+      y = (sin(sum_grados*pasar_a_radian)/2) + 0.5;
+
+      std::cout << "P externo. X: " << x << "\t Y: " << y << "\n";
+
+      Tupla3f tupla_insertar(x,y,0);
+      vertices.push_back(tupla_insertar);
+      sum_grados+=grados;
+
+      col_ver.push_back(tupla_insertar);
+                                              // Puntas internas de la estrella
+      float x_interno = (cos(sum_grados_interno*pasar_a_radian)/4) + 0.5;
+      float y_interno = (sin(sum_grados_interno*pasar_a_radian)/4)+ 0.5;
+
+      Tupla3f tupla_insertar_interna(x_interno,y_interno ,0);
+      vertices.push_back(tupla_insertar_interna);
+      sum_grados_interno+=grados;
+      col_ver.push_back(tupla_insertar_interna);
+
+      std::cout << "P interno. X: " << x_interno << "\t Y: " << y_interno << "\n";
+
+
+   }
+
+
+   for(int i = 0;i<vertices.size();i++)
+      std::cout << "Posicion " << i <<" del vertices con coordenadas : "<<vertices.at(i).operator(0)<<vertices.at(i).operator(1)<<vertices.at(i).operator(2)<<"\n";
+
+   int pto_interno = 2;
+   int pto_externo = 1;
+   for(int i=0; i < n; i++){     
+      for(int j=0; j < 2; j++){
+         std::cout << "Dibujamos triangulo :" << pto_interno << pto_externo << 0 << "\n";
+         triangulos.push_back({pto_interno, pto_externo, 0});
+         if(j == 0)pto_interno+=2;
+      }
+      pto_externo+=2;
+   }
+
+
+
+}

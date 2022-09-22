@@ -115,4 +115,12 @@ class CuboColores : public MallaInd
    public:
       CuboColores();
 };
+
+
+class EstrellaZ : public MallaInd
+{
+   public:
+      EstrellaZ(int n);
+};
+
 #endif
