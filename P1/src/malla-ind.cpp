@@ -363,6 +363,10 @@ EstrellaZ::EstrellaZ(int n)
 
       Tupla3f tupla_insertar(x,y,0);
       vertices.push_back(tupla_insertar);
+
+      std::cout << "Posicion " << i <<" del vertices con coordenadas : "<<x<<" "<<y<<0<<"\n";
+
+
       sum_grados+=grados;
 
       col_ver.push_back(tupla_insertar);
@@ -381,9 +385,8 @@ EstrellaZ::EstrellaZ(int n)
    }
 
 
-   for(int i = 0;i<vertices.size();i++)
-      std::cout << "Posicion " << i <<" del vertices con coordenadas : "<<vertices.at(i).operator(0)<<vertices.at(i).operator(1)<<vertices.at(i).operator(2)<<"\n";
-
+   //for(int i = 0;i<vertices.size();i++)
+      
    int pto_interno = 2;
    int pto_externo = 1;
    for(int i=0; i < n; i++){     
