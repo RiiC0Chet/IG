@@ -340,34 +340,30 @@ CuboColores::CuboColores()
 EstrellaZ::EstrellaZ(int n)
 :  MallaInd( "EstrellaZ" )
 {
+   const int GRADOS_CRIC = 360;
    assert(n>1);
-   float grados = 360/n;
-   float sum_grados = grados;
    vertices = {{0.5, 0.5, 0}}; // El 0 es el centro
-   float sum_grados_interno = (grados/2);
    col_ver.push_back({1.0,1.0,1.0});
 
    // converting degrees to radians
    float pasar_a_radian = 3.14159/180;
 
-   float x;
-   float y;
-
-   for(int i=0; i < n; i++)
+   float x,y,
+         sum_grados_interno = (GRADOS_CRIC/n)/2,
+         grados_int_inicial = GRADOS_CRIC/n;
+                                       // mientras que el angulo interno sea distinto al ultimo a generar  ( sum_grados_interno < (GRADOS_CRIC - (GRADOS_CRIC/n)/2) ) && 
+   for(float grados = GRADOS_CRIC/n;grados <= GRADOS_CRIC; grados += grados_int_inicial)
    {                       // Puntas de la estrella
       
-      x = (cos(sum_grados*pasar_a_radian)/2) + 0.5;
-      y = (sin(sum_grados*pasar_a_radian)/2) + 0.5;
+      x = (cos(grados*pasar_a_radian)/2) + 0.5;
+      y = (sin(grados*pasar_a_radian)/2) + 0.5;
 
       std::cout << "P externo. X: " << x << "\t Y: " << y << "\n";
 
       Tupla3f tupla_insertar(x,y,0);
       vertices.push_back(tupla_insertar);
 
-      std::cout << "Posicion " << i <<" del vertices con coordenadas : "<<x<<" "<<y<<0<<"\n";
-
-
-      sum_grados+=grados;
+      //std::cout << "Posicion " << i <<" del vertices con coordenadas : "<<x<<" "<<y<<0<<"\n";
 
       col_ver.push_back(tupla_insertar);
                                               // Puntas internas de la estrella
@@ -376,7 +372,7 @@ EstrellaZ::EstrellaZ(int n)
 
       Tupla3f tupla_insertar_interna(x_interno,y_interno ,0);
       vertices.push_back(tupla_insertar_interna);
-      sum_grados_interno+=grados;
+      sum_grados_interno+=grados_int_inicial;
       col_ver.push_back(tupla_insertar_interna);
 
       std::cout << "P interno. X: " << x_interno << "\t Y: " << y_interno << "\n";
@@ -391,7 +387,7 @@ EstrellaZ::EstrellaZ(int n)
    int pto_externo = 1;
    for(int i=0; i < n; i++){     
       for(int j=0; j < 2; j++){
-         std::cout << "Dibujamos triangulo :" << pto_interno << pto_externo << 0 << "\n";
+         //std::cout << "Dibujamos triangulo :" << pto_interno << pto_externo << 0 << "\n";
          triangulos.push_back({pto_interno, pto_externo, 0});
          if(j==0 && (i!=(n-1)))
             pto_interno+=2;
