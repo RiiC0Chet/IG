@@ -345,7 +345,7 @@ EstrellaZ::EstrellaZ(int n)
    float sum_grados = grados;
    vertices = {{0.5, 0.5, 0}}; // El 0 es el centro
    float sum_grados_interno = (grados/2);
-   col_ver.push_back({0,0,0});
+   col_ver.push_back({1.0,1.0,1.0});
 
    // converting degrees to radians
    float pasar_a_radian = 3.14159/180;
@@ -393,7 +393,12 @@ EstrellaZ::EstrellaZ(int n)
       for(int j=0; j < 2; j++){
          std::cout << "Dibujamos triangulo :" << pto_interno << pto_externo << 0 << "\n";
          triangulos.push_back({pto_interno, pto_externo, 0});
-         if(j == 0)pto_interno+=2;
+         if(j==0 && (i!=(n-1)))
+            pto_interno+=2;
+         if(j==1 && (i==(n-1))){ //Para crear el último
+            pto_interno = 2;
+            triangulos.push_back({pto_interno, pto_externo, 0});
+         }
       }
       pto_externo+=2;
    }

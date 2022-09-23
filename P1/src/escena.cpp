@@ -224,7 +224,7 @@ Escena1::Escena1()
 
    objetos.push_back( new CuboColores() );
 
-   objetos.push_back( new EstrellaZ(5) );
+   objetos.push_back( new EstrellaZ(8) );
 
    cout << "hecho." << endl << flush ;
 }
