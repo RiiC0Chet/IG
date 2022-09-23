@@ -123,4 +123,11 @@ class EstrellaZ : public MallaInd
       EstrellaZ(int n);
 };
 
+
+class CasaX : public MallaInd
+{
+   public:
+      CasaX();
+};
+
 #endif
