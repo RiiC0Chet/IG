@@ -97,16 +97,16 @@ void MallaInd::visualizarGL( ContextoVis & cv )
       nombre_vao = CrearVAO();
       
       // después se añade el VBO con la tabla de coordenadas de posición
-      CrearVBOAtrib(ind_atrib_posiciones,vertices);
+      if(vertices.size() > 0 ) nombre_vbo_pos = CrearVBOAtrib(ind_atrib_posiciones,vertices);
 
       //se añade el VBO con la tabla de índices (la tabla de triángulos)
-      if (triangulos.size() >0) CrearVBOInd( triangulos );
+      if (triangulos.size() >0) nombre_vbo_tri = CrearVBOInd( triangulos );
 
       // finalmente se añaden al VAO los VBOs con tablas de atributos (opcionaes) que haya
-      if (col_ver.size() >0) CrearVBOAtrib( ind_atrib_colores, col_ver );
-      if (nor_ver.size() >0) CrearVBOAtrib( ind_atrib_normales, nor_ver );
+      if (col_ver.size() >0) nombre_vbo_col = CrearVBOAtrib( ind_atrib_colores, col_ver );
+      if (nor_ver.size() >0) nombre_vbo_nor = CrearVBOAtrib( ind_atrib_normales, nor_ver );
          //if (nor_tri.size() >0) CrearVBOAtrib( ind_atrib_normales, nor_tri );
-      if (cc_tt_ver.size()>0) CrearVBOAtrib( ind_atrib_coord_text, cc_tt_ver);
+      if (cc_tt_ver.size()>0) nombre_vbo_cct = CrearVBOAtrib( ind_atrib_coord_text, cc_tt_ver);
    }
    else // si el VAO ya está creado
       glBindVertexArray( nombre_vao ); // activar el VAO
@@ -139,32 +139,20 @@ void MallaInd::visualizarGeomGL( ContextoVis & cv )
       // No hace falta ninguno de estos realmente, ya que los VBO estos ya se crearon en el visualGL
       // y como este metodo siempre se llama despues del anterior ya estaran creados
 
-      // después se añade el VBO con la tabla de coordenadas de posición
-      CrearVBOAtrib(ind_atrib_posiciones,vertices);
-
-      //se añade el VBO con la tabla de índices (la tabla de triángulos)
-      if (triangulos.size() >0) CrearVBOInd( triangulos );
-      
       // Activamos VBO
-     // glBindBuffer(GL_ARRAY_BUFFER, nombre_vbo_tri);
-      //glBindBuffer(GL_ARRAY_BUFFER, nombre_vbo_pos);
-      //glVertexAttribPointer(nombre_vbo_tri, 3, GL_UNSIGNED_INT, GL_FALSE, 0, 0);
-      //glVertexAttribPointer(ind_atrib_posiciones, 3,GL_FLOAT , GL_FALSE, 0, 0);
+      glBindBuffer(GL_ARRAY_BUFFER, nombre_vbo_pos);
 
-      //glEnableVertexAttribArray(ind_atrib);
-      //glEnableVertexAttribArray(ind_atrib_posiciones);
+      // Le decimos donde estan las posiciones
+      glVertexAttribPointer(ind_atrib_posiciones, 3,GL_FLOAT , GL_FALSE, 0, 0);
 
-      // 2. calcular parámetros no independientes
+      // Terminamos de activar
+      glEnableVertexAttribArray(ind_atrib_posiciones);
 
-      //glBindBuffer( GL_ARRAY_BUFFER, ind_atrib_posiciones ); 
+      // Activamos el vbo de triangulos
+      // No se utiliza GL_ARRAY_BUFFER porque ese es para atributos, no para indices
+      glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, nombre_vbo_tri ); 
 
-      // 5. establece formato y dirección de inicio en el VBO
-      //glVertexAttribPointer( ind_atrib_posiciones, 3, GL_FLOAT, GL_FALSE, 0, 0 );
-      
-      // 6. habilita la tabla, hacer que no haya ningun VBO activo
-      //glEnableVertexAttribArray( ind_atrib_posiciones );
-      //glBindBuffer( GL_ARRAY_BUFFER, 0 );
-
+      CError();
    }
    else // si el VAO ya está creado
       glBindVertexArray( nombre_vao_geo ); // activar el VAO
@@ -176,7 +164,7 @@ void MallaInd::visualizarGeomGL( ContextoVis & cv )
    // COMPLETAR: práctica 1: visualizar con 'glDrawElements' y desactivar VAO.
    glDrawElements(GL_TRIANGLES,triangulos.size()*3,GL_UNSIGNED_INT,0);
    glBindVertexArray( 0 ); 
-
+   CError();
    // COMPLETAR: práctica 1. Visualizar la malla y desactivar VAO
    // ....
 
@@ -411,27 +399,48 @@ CasaX::CasaX()
 {
 
    vertices =
-      {  { -1.0, -0.5, -0.5 }, // 0
-         { -1.0, -0.5, +1.0 }, // 1
-         { -1.0, +1.0, -0.5 }, // 2
-         { -1.0, +1.0, +1.0 }, // 3
-         { +1.0, -0.5, -0.5 }, // 4
-         { +1.0, -0.5, +1.0 }, // 5
-         { +1.0, +1.0, -0.5 }, // 6
-         { +1.0, +1.0, +1.0 }, // 7
+      {  { 0.0, 0.0, 0.0 }, // 0
+         { 0.0, 0.0, 1.0 }, // 1
+         { 0.0, 0.5, 1.0 }, // 2
+         { 0.0, 0.5, 0.0 }, // 3
+         { +1.0, 0.0, 0.0 }, // 4
+         { +1.0, 0.0, 1.0 }, // 5
+         { +1.0, 0.5, 0.0 }, // 6
+         { +1.0, 0.5, 1.0 }, // 7
+         { +1.0, +1.0, +0.5}, // 8 esquina positiva en x
+         { 0.0, +1.0, +0.5}  // 9 esquina negativa en x
       } ;
 
 
 
    triangulos =
-      {  {0,1,3}, {0,3,2}, // X-
+      {  {0,1,2}, {0,3,2}, // X-
          {4,7,5}, {4,6,7}, // X+ (+4)
 
          //{0,5,1}, {0,4,5}, // Y-
          //{2,3,7}, {2,7,6}, // Y+ (+2)
 
-         {0,6,4}, {0,2,6}, // Z-
-         {1,5,7}, {1,7,3}  // Z+ (+1)
+         {0,6,4}, {0,3,6}, // Z-
+         {1,5,7}, {1,7,2},  // Z+ (+1)
+
+         {6,7,8}, {2,3,9}, // caras frontales del tejado
+
+         {2,7,8}, {2,8,9},
+         {3,6,8}, {3,8,9}
+
+      } ;
+
+      col_ver =
+      {  { 0.0, 0.0, 0.0 }, // 0
+         { 0.0, 0.0, 1.0 }, // 1
+         { 0.0, 0.5, 1.0 }, // 2
+         { 0.0, 0.5, 0.0 }, // 3
+         { +1.0, 0.0, 0.0 }, // 4
+         { +1.0, 0.0, 1.0 }, // 5
+         { +1.0, 0.5, 0.0 }, // 6
+         { +1.0, 0.5, 1.0 }, // 7
+         { +1.0, +1.0, +0.5}, // 8 esquina positiva en x
+         { 0.0, +1.0, +0.5}  // 9 esquina negativa en x
       } ;
 
 }
