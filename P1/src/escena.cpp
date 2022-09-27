@@ -137,7 +137,6 @@ void Escena::visualizarGL( ContextoVis & cv )
 
       cv.cauce->fijarColor(colorN);
       //cauce->fijarColor(colorN);
-      cout<<"eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"<<endl;
       glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
       objeto->visualizarGeomGL(cv);
    }

@@ -26,7 +26,13 @@ void MallaRevol::inicializar
 {
    // COMPLETAR: Práctica 2: completar: creación de la malla....
 
-
+   for(int i=0;i<=(num_copias-1);i++)
+   {
+      for(int i=0;i<=(perfil.size()-1);i++)
+      {
+         
+      }
+   }
 
 
 
