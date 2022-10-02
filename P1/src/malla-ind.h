@@ -79,7 +79,14 @@ class MallaPLY : public MallaInd
       MallaPLY( const std::string & nombre_arch ) ;
 } ;
 
-
+// ---------------------------------------------------------------------
+/*
+class beethoven : public MallaPLY
+{
+   public:
+      beethoven::beethoven(const std::string & nombre_arch);
+};
+*/
 // ---------------------------------------------------------------------
 
 class Cubo : public MallaInd
