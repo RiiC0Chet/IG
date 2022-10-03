@@ -35,8 +35,8 @@ void MallaRevol::inicializar
       for(int j=0;j<=(perfil.size()-1);j++)
       {
          // calculamos las nuevas tuplas de revolucion
-         x_aux = perfil.at(j)(0) * cos( ((i*2*3.141516) / (num_copias-1)) * (3.141516/180) );
-         z_aux = perfil.at(j)(0) * sin( ((i*2*3.141516) / (num_copias-1)) * (3.141516/180) );
+         x_aux = perfil.at(j)(0) * cos( (((i*2*3.141516) / (num_copias-1)))  );
+         z_aux = perfil.at(j)(0) * sin( (((i*2*3.141516) / (num_copias-1)))  );
 
          // introducimos el nuevo punto en la tabla de vertices
          vertices.push_back({x_aux,perfil.at(j)(1),z_aux});
