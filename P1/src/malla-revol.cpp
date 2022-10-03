@@ -96,8 +96,8 @@ Esfera::Esfera( const int num_verts_per, const unsigned nperfiles)
    for(int  angulo = -90; angulo<=90 ;angulo+= 180/num_verts_per )
    {
       // el radio es la unidad
-      x = 1 * cos(angulo*3.1441516/180);
-      y = 1 * sin(angulo*3.1441516/180);
+      x = 1 * cos(angulo*M_PI/180);
+      y = 1 * sin(angulo*M_PI/180);
 
       perfil.push_back({x,y,0});
    }

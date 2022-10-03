@@ -334,7 +334,7 @@ EstrellaZ::EstrellaZ(int n)
    col_ver.push_back({1.0,1.0,1.0});
 
    // converting degrees to radians
-   float pasar_a_radian = 3.14159/180;
+   float pasar_a_radian = M_PI/180;
 
    float x,y,
          sum_grados_interno = (GRADOS_CRIC/n)/2,
