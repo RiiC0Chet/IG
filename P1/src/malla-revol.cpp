@@ -43,8 +43,6 @@ void MallaRevol::inicializar
       }
    }
 
-   cout<<"Numero de verticessssssssssssssssssssssssssssssss _ "<<vertices.size()<<endl;
-
    // Creamos la tabla de triangulos
    for(int i=0;i<=(num_copias-2);i++)
    {
@@ -59,7 +57,6 @@ void MallaRevol::inicializar
       }
    }
 
-   cout<<"Numero de triangulossssssssssssssssssssssssssssssssssssssssss _ "<<triangulos.size()<<endl;
 }
 
 // -----------------------------------------------------------------------------
@@ -88,4 +85,25 @@ MallaRevolPLY::MallaRevolPLY
 
 }
 
+// -----------------------------------------------------------------------------
+// Constructor esfera
+Esfera::Esfera( const int num_verts_per, const unsigned nperfiles) 
+{
+   // Creamos el perfil de la esfera con el numero de vertices
+   float x,y;
+   // Creamos el vector de tuplas donde se va a almacenar la instancia 0 del perfil
+   std::vector<Tupla3f>  perfil;
+
+   for(int  angulo = -90; angulo<=90 ;angulo+= 180/num_verts_per )
+   {
+      // el radio es la unidad
+      x = 1 * cos(angulo*3.1441516/180);
+      y = 1 * sin(angulo*3.1441516/180);
+
+      perfil.push_back({x,y,0});
+   }
+
+   inicializar(perfil,nperfiles);
+
+}
 

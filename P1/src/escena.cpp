@@ -243,6 +243,7 @@ Escena2::Escena2()
 
    objetos.push_back(new MallaPLY("beethoven.ply"));
    objetos.push_back(new MallaRevolPLY("peon.ply",15));
+   objetos.push_back(new Esfera(18,36));
    
 }
 
