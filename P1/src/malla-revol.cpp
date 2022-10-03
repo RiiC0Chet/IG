@@ -25,7 +25,7 @@ void MallaRevol::inicializar
 )
 {
    // COMPLETAR: Práctica 2: completar: creación de la malla....
-
+   
    int k; // auxiliar para la creacion de los nuevos triangulos
    float x_aux,z_aux; // auxiliares para la creacion de las nuevas tuplas
 
@@ -35,8 +35,8 @@ void MallaRevol::inicializar
       for(int j=0;j<=(perfil.size()-1);j++)
       {
          // calculamos las nuevas tuplas de revolucion
-         x_aux = perfil.at(j)(0) * cos( (((i*2*3.141516) / (num_copias-1)))  );
-         z_aux = perfil.at(j)(0) * sin( (((i*2*3.141516) / (num_copias-1)))  );
+         x_aux = perfil.at(j)(0) * cos( (((i*2*M_PI) / (num_copias-1)))  );
+         z_aux = perfil.at(j)(0) * sin( (((i*2*M_PI) / (num_copias-1)))  );
 
          // introducimos el nuevo punto en la tabla de vertices
          vertices.push_back({x_aux,perfil.at(j)(1),z_aux});
@@ -56,7 +56,6 @@ void MallaRevol::inicializar
          triangulos.push_back({k,k+perfil.size()+1,k+1});
       }
    }
-
 }
 
 // -----------------------------------------------------------------------------
@@ -107,3 +106,64 @@ Esfera::Esfera( const int num_verts_per, const unsigned nperfiles)
 
 }
 
+
+// -----------------------------------------------------------------------------
+// Constructor cilindro
+
+Cilindro::Cilindro(const int num_verts_per, const unsigned nperfiles) 
+{
+   
+   // Creamos el perfil de la esfera con el numero de vertices
+   float y,
+         decremento = 1.0/(num_verts_per-1),
+         aux = 1.0;
+   // Creamos el vector de tuplas donde se va a almacenar la instancia 0 del perfil
+   std::vector<Tupla3f>  perfil;
+
+   // Introducimos tapa arriba
+   perfil.push_back({0,1.0,0});
+
+   for(int i = 0;i<num_verts_per;i++ )
+   {
+      perfil.push_back({1,aux,0});
+      aux-=decremento;  
+   }
+
+   // Introducimos tapa abajo
+   perfil.push_back({0,0,0});
+   
+
+   inicializar(perfil,nperfiles);
+}
+
+// -----------------------------------------------------------------------------
+// Constructor cono
+
+Cono::Cono(const int num_verts_per, const unsigned nperfiles) 
+{
+   // Creamos el perfil de la esfera con el numero de vertices
+   float y,
+         decremento = 1.0/(num_verts_per-1),
+         x_aux = 1.0;
+   // Creamos el vector de tuplas donde se va a almacenar la instancia 0 del perfil
+   std::vector<Tupla3f>  perfil;
+
+   // Introducimos el punto de arriba
+   perfil.push_back({0,1.0,0});
+
+   for(int i = 0;i<num_verts_per-2;i++)
+   {
+      y= -x_aux + 1;
+      perfil.push_back({x_aux,y,0});
+      x_aux-=decremento; 
+   }
+
+   // Introducimos el punto de abajo
+   perfil.push_back({1.0,0,0});
+
+   //Introducimos tapa abajo
+   perfil.push_back({0,0,0});
+   
+   inicializar(perfil,nperfiles);
+
+}

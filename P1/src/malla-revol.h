@@ -55,4 +55,28 @@ class Esfera : public MallaRevol
       ) ;
 };
 
+class Cilindro : public MallaRevol
+{
+   public:
+   // Constructor: crea el perfil original y llama a inicializar
+   // la base tiene el centro en el origen, el radio y la altura son 1
+      Cilindro
+      (
+      const int num_verts_per, // número de vértices del perfil original (m)
+      const unsigned nperfiles // número de perfiles (n)
+      ) ;
+} ;
+
+class Cono : public MallaRevol
+{
+   public:
+   // Constructor: crea el perfil original y llama a inicializar
+   // la base tiene el centro en el origen, el radio y altura son 1
+      Cono
+      (
+      const int num_verts_per, // número de vértices del perfil original (m)
+      const unsigned nperfiles // número de perfiles (n)
+      ) ;
+
+};
 #endif
