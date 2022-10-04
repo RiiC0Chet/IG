@@ -535,7 +535,7 @@ RejillaY::RejillaY(unsigned int n, unsigned int m)
       {
          vertices.push_back({x_valor,0.0,z_valor});
          col_ver.push_back({x_valor,0.0,z_valor});
-         std::cout<<"oooooooooooooooooooooooooooooooooooo"<<x_valor<<0<<z_valor<<std::endl;
+         //std::cout<<"oooooooooooooooooooooooooooooooooooo"<<x_valor<<0<<z_valor<<std::endl;
          x_valor+=incremento_x;
          
       }
@@ -543,28 +543,32 @@ RejillaY::RejillaY(unsigned int n, unsigned int m)
       x_valor=0.0;
    }
 
+   //for(int i = 0;i<vertices.size();i++)
+     // std::cout<<"oooooooooooooooooooooooooooooooooooo"<<vertices.at(i)(0)<<vertices.at(i)(1)<<vertices.at(i)(2)<<std::endl;
    // Creaos la tabla de triangulos
-   for(int i = 0;i<m;i++)
+
+   for(int i = 0;i<m-1;i++)
    {
       for(int j=0;j<n;j++)
       {
          // Si estamos en un vertice par 
          if(j == 0)
-            triangulos.push_back({(i*j)+j,(i*j)+j+1,(i*j)+j+m});
+            triangulos.push_back({(i*m)+j,(i*m)+j+1,(i*m)+j+m});
 
          // Si estamos en un vertice impar 
          else if( j == n-1)
-            triangulos.push_back({(i*j)+j,(i*j)+j+m-1,(i*j)+j+m});
-         else
+            triangulos.push_back({(i*m)+j,(i*m)+j+m-1,(i*m)+j+m});
+         else 
          {
-            triangulos.push_back({(i*j)+j,(i*j)+j+1,(i*j)+j+m});
-            triangulos.push_back({(i*j)+j,(i*j)+j+m-1,(i*j)+j+m});
+            triangulos.push_back({(i*m)+j,(i*m)+j+1,(i*m)+j+m});
+            triangulos.push_back({(i*m)+j,(i*m)+j+m-1,(i*m)+j+m});
          }
       }
       
    }
-   std::cout<<"ppppppppppppppppppppppppppppppppppppppppppp"<<triangulos.size()<<std::endl;
-
+   //std::cout<<"ppppppppppppppppppppppppppppppppppppppppppp"<<triangulos.size()<<std::endl;
+   for(int i = 0;i<triangulos.size();i++)
+      std::cout<<"oooooooooooooooooooooooooooooooooooo"<<triangulos.at(i)(0)<<triangulos.at(i)(1)<<triangulos.at(i)(2)<<std::endl;
 }
 
 // -----------------------------------------------------------------------------------------------
