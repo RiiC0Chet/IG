@@ -132,4 +132,10 @@ class PiramideEstrellaZ : public MallaInd
    public:
    PiramideEstrellaZ(int n);
 };
+
+class RejillaY : public MallaInd
+{
+   public:
+   RejillaY(unsigned int n, unsigned int m);
+};
 #endif

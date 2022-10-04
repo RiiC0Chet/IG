@@ -517,3 +517,49 @@ PiramideEstrellaZ::PiramideEstrellaZ(int n)
 }
 
 // -----------------------------------------------------------------------------------------------
+
+RejillaY::RejillaY(unsigned int n, unsigned int m)
+{
+   // Comprobamos las condiciones necesarias
+   assert(n>1 && m > 1);
+
+   // Creamos las variables locales
+   float  x_valor=0.0,z_valor=0.0, // Valores a los que se les va sumando los incrementos
+          incremento_x = 1.0/ n,
+          incremento_z = 1.0/m;
+
+   // Creamos la malla de vertices
+   for(int i = 0;i<m;i++)
+   {
+      for(int j=0;j<n;j++)
+      {
+         vertices.push_back({x_valor,0.0,z_valor});
+         col_ver.push_back({x_valor,0.0,z_valor});
+         std::cout<<"oooooooooooooooooooooooooooooooooooo"<<x_valor<<0<<z_valor<<std::endl;
+         x_valor+=incremento_x;
+         
+      }
+      z_valor+=incremento_z;
+      x_valor=0.0;
+   }
+   //std::cout<<"oooooooooooooooooooooooooooooooooooo"<<vertices.size()<<std::endl;
+   // Creaos la tabla de triangulos
+   for(int i = 0;i<m-1;i++)
+   {
+      for(int j=0;j<n-1;j++)
+      {
+         // Si estamos en un vertice par 
+         if(j/2 == 0)
+            triangulos.push_back({i+j,i+j+1,i+j+m});
+
+         // Si estamos en un vertice impar 
+         else
+            triangulos.push_back({i+j,i+j+m-1,i+j+m});
+      }
+      
+   }
+   std::cout<<"ppppppppppppppppppppppppppppppppppppppppppp"<<triangulos.size()<<std::endl;
+
+}
+
+// -----------------------------------------------------------------------------------------------
