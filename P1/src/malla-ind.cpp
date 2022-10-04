@@ -525,8 +525,8 @@ RejillaY::RejillaY(unsigned int n, unsigned int m)
 
    // Creamos las variables locales
    float  x_valor=0.0,z_valor=0.0, // Valores a los que se les va sumando los incrementos
-          incremento_x = 1.0/ n,
-          incremento_z = 1.0/m;
+          incremento_x = 1.0/ (n-1),
+          incremento_z = 1.0/ (m-1);
 
    // Creamos la malla de vertices
    for(int i = 0;i<m;i++)
@@ -542,19 +542,24 @@ RejillaY::RejillaY(unsigned int n, unsigned int m)
       z_valor+=incremento_z;
       x_valor=0.0;
    }
-   //std::cout<<"oooooooooooooooooooooooooooooooooooo"<<vertices.size()<<std::endl;
+
    // Creaos la tabla de triangulos
-   for(int i = 0;i<m-1;i++)
+   for(int i = 0;i<m;i++)
    {
-      for(int j=0;j<n-1;j++)
+      for(int j=0;j<n;j++)
       {
          // Si estamos en un vertice par 
-         if(j/2 == 0)
-            triangulos.push_back({i+j,i+j+1,i+j+m});
+         if(j == 0)
+            triangulos.push_back({(i*j)+j,(i*j)+j+1,(i*j)+j+m});
 
          // Si estamos en un vertice impar 
+         else if( j == n-1)
+            triangulos.push_back({(i*j)+j,(i*j)+j+m-1,(i*j)+j+m});
          else
-            triangulos.push_back({i+j,i+j+m-1,i+j+m});
+         {
+            triangulos.push_back({(i*j)+j,(i*j)+j+1,(i*j)+j+m});
+            triangulos.push_back({(i*j)+j,(i*j)+j+m-1,(i*j)+j+m});
+         }
       }
       
    }
