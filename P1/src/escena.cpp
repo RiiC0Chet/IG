@@ -248,6 +248,7 @@ Escena2::Escena2()
    objetos.push_back(new Cono(10,20));
    objetos.push_back(new PiramideEstrellaZ(4));
    objetos.push_back(new RejillaY(5,5));
+   objetos.push_back(new MallaTorre(1));
    
 }
 

@@ -417,9 +417,6 @@ CasaX::CasaX()
       {  {0,1,2}, {0,3,2}, // X-
          {4,7,5}, {4,6,7}, // X+ (+4)
 
-         //{0,5,1}, {0,4,5}, // Y-
-         //{2,3,7}, {2,7,6}, // Y+ (+2)
-
          {0,6,4}, {0,3,6}, // Z-
          {1,5,7}, {1,7,2},  // Z+ (+1)
 
@@ -535,16 +532,12 @@ RejillaY::RejillaY(unsigned int n, unsigned int m)
       {
          vertices.push_back({x_valor,0.0,z_valor});
          col_ver.push_back({x_valor,0.0,z_valor});
-         //std::cout<<"oooooooooooooooooooooooooooooooooooo"<<x_valor<<0<<z_valor<<std::endl;
          x_valor+=incremento_x;
          
       }
       z_valor+=incremento_z;
       x_valor=0.0;
    }
-
-   //for(int i = 0;i<vertices.size();i++)
-     // std::cout<<"oooooooooooooooooooooooooooooooooooo"<<vertices.at(i)(0)<<vertices.at(i)(1)<<vertices.at(i)(2)<<std::endl;
    // Creaos la tabla de triangulos
 
    for(int i = 0;i<m-1;i++)
@@ -566,9 +559,46 @@ RejillaY::RejillaY(unsigned int n, unsigned int m)
       }
       
    }
-   //std::cout<<"ppppppppppppppppppppppppppppppppppppppppppp"<<triangulos.size()<<std::endl;
-   for(int i = 0;i<triangulos.size();i++)
-      std::cout<<"oooooooooooooooooooooooooooooooooooo"<<triangulos.at(i)(0)<<triangulos.at(i)(1)<<triangulos.at(i)(2)<<std::endl;
 }
 
+// -----------------------------------------------------------------------------------------------
+
+MallaTorre::MallaTorre(int n)
+{
+   // Creamos la tabla de vertices
+   for(int i = 0;i<n;i++)
+   {
+         // Los de la base solo hace falta que se pongan al principio
+         // luego basta con ir añadiendo los dos de arriba cada vez
+         
+         vertices.push_back({0.5,0.0+i,0.5});// 0
+         vertices.push_back({0.5,0.0+i,-0.5});// 1
+         
+         vertices.push_back({0.5,1.0+i,0.5});// 2
+         vertices.push_back({0.5,1.0+i,-0.5});// 3
+
+         
+         vertices.push_back({-0.5,0.0+i,0.5});// 4
+         vertices.push_back({-0.5,0.0+i,-0.5});// 5
+         
+         vertices.push_back({-0.5,1.0+i,0.5});// 6
+         vertices.push_back({-0.5,1.0+i,-0.5});// 7
+   }
+
+   // Creamos la tabla de triangulos
+   for(int i = 0;i<n;i++)
+   {
+      triangulos.push_back({0+(8*i),1+(8*i),2+(8*i)});
+      triangulos.push_back({1+(8*i),2+(8*i),3+(8*i)});
+
+      triangulos.push_back({1+(8*i),3+(8*i),5+(8*i)});
+      triangulos.push_back({3+(8*i),5+(8*i),7+(8*i)});
+      
+      triangulos.push_back({4+(8*i),5+(8*i),6+(8*i)});
+      triangulos.push_back({5+(8*i),6+(8*i),7+(8*i)});
+      
+      triangulos.push_back({0+(8*i),2+(8*i),4+(8*i)});
+      triangulos.push_back({2+(8*i),4+(8*i),6+(8*i)});
+   }
+}
 // -----------------------------------------------------------------------------------------------

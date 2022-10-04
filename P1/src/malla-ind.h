@@ -138,4 +138,10 @@ class RejillaY : public MallaInd
    public:
    RejillaY(unsigned int n, unsigned int m);
 };
+
+class MallaTorre : public MallaInd
+{
+   public:
+   MallaTorre(int n);
+};
 #endif
