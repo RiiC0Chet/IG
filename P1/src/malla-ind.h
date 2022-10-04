@@ -79,15 +79,7 @@ class MallaPLY : public MallaInd
       MallaPLY( const std::string & nombre_arch ) ;
 } ;
 
-// ---------------------------------------------------------------------
-/*
-class beethoven : public MallaPLY
-{
-   public:
-      beethoven::beethoven(const std::string & nombre_arch);
-};
-*/
-// ---------------------------------------------------------------------
+// -----------------------------PRACTICA 1----------------------------------------
 
 class Cubo : public MallaInd
 {
@@ -95,15 +87,11 @@ class Cubo : public MallaInd
       Cubo();
 };
 
-// ---------------------------------------------------------------------
-
 class CuboTejado : public MallaInd
 {
    public:
       CuboTejado();
 };
-
-// --------------------------------------------------------------------
 
 class Cubo24 : public MallaInd
 {
@@ -137,4 +125,11 @@ class CasaX : public MallaInd
       CasaX();
 };
 
+// -----------------------------PRACTICA 2----------------------------------------
+
+class PiramideEstrellaZ : public MallaInd
+{
+   public:
+   PiramideEstrellaZ(int n);
+};
 #endif

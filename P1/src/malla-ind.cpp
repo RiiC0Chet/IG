@@ -446,5 +446,74 @@ CasaX::CasaX()
 }
 
 // -----------------------------------------------------------------------------------------------
-//beethoven::beethoven(const std::string & nombre_arch) : MallaPLY(nombre_arch){}
+
+PiramideEstrellaZ::PiramideEstrellaZ(int n)
+:  MallaInd( "EstrellaZ" )
+{
+   const int GRADOS_CRIC = 360;
+   assert(n>1);
+   vertices = {{0.5, 0.5, 0}}; // El 0 es el centro
+   col_ver.push_back({1.0,1.0,1.0});
+
+   // converting degrees to radians
+   float pasar_a_radian = M_PI/180;
+
+   float x,y,
+         sum_grados_interno = (GRADOS_CRIC/n)/2,
+         grados_int_inicial = GRADOS_CRIC/n;
+                                       // mientras que el angulo interno sea distinto al ultimo a generar  ( sum_grados_interno < (GRADOS_CRIC - (GRADOS_CRIC/n)/2) ) && 
+   for(float grados = GRADOS_CRIC/n;grados <= GRADOS_CRIC; grados += grados_int_inicial)
+   {                       // Puntas de la estrella
+      
+      x = (cos(grados*pasar_a_radian)/2) + 0.5;
+      y = (sin(grados*pasar_a_radian)/2) + 0.5;
+
+      std::cout << "P externo. X: " << x << "\t Y: " << y << "\n";
+
+
+      Tupla3f tupla_insertar(x,y,0);
+      vertices.push_back(tupla_insertar);
+
+      //std::cout << "Posicion " << i <<" del vertices con coordenadas : "<<x<<" "<<y<<0<<"\n";
+
+      col_ver.push_back(tupla_insertar);
+                                              // Puntas internas de la estrella
+      float x_interno = (cos(sum_grados_interno*pasar_a_radian)/4) + 0.5;
+      float y_interno = (sin(sum_grados_interno*pasar_a_radian)/4)+ 0.5;
+
+      Tupla3f tupla_insertar_interna(x_interno,y_interno ,0);
+      vertices.push_back(tupla_insertar_interna);
+      sum_grados_interno+=grados_int_inicial;
+      col_ver.push_back(tupla_insertar_interna);
+
+      std::cout << "P interno. X: " << x_interno << "\t Y: " << y_interno << "\n";
+
+
+   }
+
+   // Introducimos el punto del centro desplazado para poder unirlo posteriormente
+   vertices.push_back({0.5,0.5,0.5});
+
+   int pto_interno = 2;
+   int pto_externo = 1;
+   for(int i=0; i < n; i++){     
+      for(int j=0; j < 2; j++){
+         triangulos.push_back({pto_interno, pto_externo, 0});
+         // Unimos con el nuevo centro
+         triangulos.push_back({pto_interno, pto_externo, vertices.size()-1});
+         if(j==0 && (i!=(n-1)))
+            pto_interno+=2;
+         if(j==1 && (i==(n-1))){ //Para crear el último
+            pto_interno = 2;
+            triangulos.push_back({pto_interno, pto_externo, 0});
+            // Unimos con el nuevo centro
+            triangulos.push_back({pto_interno, pto_externo, vertices.size()-1});
+         }
+      }
+      pto_externo+=2;
+   }
+
+
+}
+
 // -----------------------------------------------------------------------------------------------
