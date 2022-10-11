@@ -10,6 +10,7 @@
 #include "camara.h"
 #include "materiales-luces.h"
 #include "seleccion.h"
+#include "modelo-jer.h"
 
 
 
@@ -248,7 +249,7 @@ Escena2::Escena2()
    objetos.push_back(new Cono(10,20));
    objetos.push_back(new PiramideEstrellaZ(4));
    objetos.push_back(new RejillaY(5,5));
-   objetos.push_back(new MallaTorre(1));
+   objetos.push_back(new MallaTorre(5));
    
 }
 
@@ -258,7 +259,13 @@ Escena2::Escena2()
 // los objetos que se indican en los guiones de las práctica 3
 // .......
 
+Escena3::Escena3()
+{
+   using namespace std ;
+   cout << "Creando objetos de escena 3 .... " << flush ;
+   objetos.push_back(new C());
 
+}
 
 // ----------------------------------------------------------------------
 // COMPLETAR: Práctica 4

@@ -82,6 +82,26 @@ void NodoGrafoEscena::visualizarGL( ContextoVis & cv )
    // COMPLETAR: práctica 3: recorrer las entradas y visualizar cada nodo.
    // ........
 
+   // guarda modelview actual
+   cv.cauce->pushMM();
+   // recorrer todas las entradas del array que hay en el nodo:
+   for( unsigned i = 0 ; i < entradas.size() ; i++ )
+   {
+      switch( entradas[i].tipo )
+      { 
+         case TipoEntNGE::objeto : // entrada objeto:
+            entradas[i].objeto->visualizarGL( cv ); // visualizar objeto
+         break ;
+         case TipoEntNGE::transformacion : // entrada transf.:
+            cv.cauce->compMM( *(entradas[i].matriz)); // componer matriz
+         break ;
+      }
+   }
+   
+   // restaura modelview guardada
+   cv.cauce->popMM() ;
+
+
    // COMPLETAR: práctica 4: en la práctica 4, si 'cv.iluminacion' es 'true',
    // se deben de gestionar los materiales:
    //   1. guardar puntero al material activo al inicio (está en cv.material_act)
@@ -135,7 +155,8 @@ unsigned NodoGrafoEscena::agregar( const EntradaNGE & entrada )
 {
    // COMPLETAR: práctica 3: agregar la entrada al nodo, devolver índice de la entrada agregada
    // ........
-   return 0 ; // sustituir por lo que corresponda ....
+   entradas.push_back(entrada);
+   return entradas.size()-1 ; // sustituir por lo que corresponda ....
 
 }
 // -----------------------------------------------------------------------------
@@ -167,9 +188,11 @@ Matriz4f * NodoGrafoEscena::leerPtrMatriz( unsigned indice )
    // COMPLETAR: práctica 3: devolver puntero la matriz en ese índice
    //   (debe de dar error y abortar si no hay una matriz en esa entrada)
    // ........(sustituir 'return nullptr' por lo que corresponda)
-   return nullptr ;
 
-
+   assert( indice < entradas.size() );
+   assert( entradas[indice].tipo == TipoEntNGE::transformacion );
+   assert( entradas[indice].matriz != nullptr );
+   return entradas[indice].matriz ;
 }
 // -----------------------------------------------------------------------------
 // si 'centro_calculado' es 'false', recalcula el centro usando los centros
