@@ -84,6 +84,8 @@ void NodoGrafoEscena::visualizarGL( ContextoVis & cv )
 
    // guarda modelview actual
    cv.cauce->pushMM();
+
+   // HAY QUE COMPROBAR COLOR Y RESTAURAR AL FINAL ETC
    // recorrer todas las entradas del array que hay en el nodo:
    for( unsigned i = 0 ; i < entradas.size() ; i++ )
    {
