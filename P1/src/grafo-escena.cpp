@@ -144,6 +144,27 @@ void NodoGrafoEscena::visualizarGeomGL( ContextoVis & cv )
 
    // .......
 
+   // guarda modelview actual
+   cv.cauce->pushMM();
+
+
+   // recorrer todas las entradas del array que hay en el nodo:
+   for( unsigned i = 0 ; i < entradas.size() ; i++ )
+   {
+      switch( entradas[i].tipo )
+      { 
+         case TipoEntNGE::objeto : // entrada objeto:
+            entradas[i].objeto->visualizarGeomGL( cv ); // visualizar objeto
+         break ;
+         case TipoEntNGE::transformacion : // entrada transf.:
+            cv.cauce->compMM( *(entradas[i].matriz)); // componer matriz
+         break ;
+      }
+   }
+   
+   // restaura modelview guardada
+   cv.cauce->popMM() ;
+
 }
 
 

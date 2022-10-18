@@ -17,5 +17,16 @@ class C : public NodoGrafoEscena
     virtual void actualizarEstadoParametro( const unsigned iParam, const float t_sec );
 };
 
+class PlataformaInferior : public NodoGrafoEscena
+{
+    protected:
+
+    public:
+    PlataformaInferior();
+
+    virtual unsigned leerNumParametros() const;
+
+    virtual void actualizarEstadoParametro( const unsigned iParam, const float t_sec );
+};
 
 #endif
