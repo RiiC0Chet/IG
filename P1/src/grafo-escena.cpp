@@ -86,6 +86,9 @@ void NodoGrafoEscena::visualizarGL( ContextoVis & cv )
    cv.cauce->pushMM();
 
    // HAY QUE COMPROBAR COLOR Y RESTAURAR AL FINAL ETC
+   // guardar el color previamente fijado y fijar el color del objeto actual
+   const Tupla4f color_previo = leerFijarColVertsCauce( cv );
+
    // recorrer todas las entradas del array que hay en el nodo:
    for( unsigned i = 0 ; i < entradas.size() ; i++ )
    {
@@ -100,6 +103,9 @@ void NodoGrafoEscena::visualizarGL( ContextoVis & cv )
       }
    }
    
+   // restaurar el color previamente fijado
+   cv.cauce->fijarColor( color_previo );
+
    // restaura modelview guardada
    cv.cauce->popMM() ;
 

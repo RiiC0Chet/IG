@@ -13,6 +13,8 @@ class C : public NodoGrafoEscena
     C(float traslacion);
 
     virtual unsigned leerNumParametros() const;
+
+    virtual void actualizarEstadoParametro( const unsigned iParam, const float t_sec );
 };
 
 

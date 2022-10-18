@@ -1,8 +1,9 @@
 #include "modelo-jer.h"
 
-C::C(float traslacion)
+C::C(float alpha)
 {
-    int  indicie_1 = agregar( MAT_Traslacion( { traslacion, traslacion, traslacion }) );// Tra[0.1, 0.1]
+    agregar( MAT_Traslacion( { 1.0, 1.0 , 1.0 }) );
+    int  indicie_1 = agregar(MAT_Rotacion( alpha, { 0.0, 1.0, 0.0 } ));
     agregar(new Esfera(18,36));
 
     // Almacenamos la matriz vvariable con el puntero como variable de instancia pm_tras
@@ -11,4 +12,18 @@ C::C(float traslacion)
 unsigned C::leerNumParametros() const 
 {
     return 1;
+}
+
+void C::actualizarEstadoParametro( const unsigned iParam, const float t_sec )
+{
+    assert(iParam < leerNumParametros() && iParam >=0);
+
+    switch(iParam)
+    {
+        case 0:
+            float alpha = ( (90+360)/2 ) + ( (360-90)/2 ) * sin(2*M_PI*t_sec);
+            *pm_tras = MAT_Rotacion( alpha, { 0.0, 1.0, 0.0 } ) ;
+        break;
+    }
+
 }
