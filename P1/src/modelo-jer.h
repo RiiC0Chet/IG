@@ -17,16 +17,17 @@ class C : public NodoGrafoEscena
     virtual void actualizarEstadoParametro( const unsigned iParam, const float t_sec );
 };
 
+// Rectangulo de la parte inferior de la grua
 class PlataformaInferior : public NodoGrafoEscena
 {
-    protected:
-
     public:
     PlataformaInferior();
-
-    virtual unsigned leerNumParametros() const;
-
-    virtual void actualizarEstadoParametro( const unsigned iParam, const float t_sec );
 };
 
+//Pilar de la grua (Plataforma inferior+Cilindro)
+class PilarGrua : public NodoGrafoEscena
+{
+    public:
+    PilarGrua();
+};
 #endif

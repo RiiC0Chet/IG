@@ -27,3 +27,27 @@ void C::actualizarEstadoParametro( const unsigned iParam, const float t_sec )
     }
 
 }
+
+
+
+PlataformaInferior::PlataformaInferior()
+{
+    agregar(MAT_Escalado(0.85,0.25,0.85));
+    agregar(MAT_Traslacion({0.5,0.5,0.5}));
+    agregar(new Cubo());
+}
+
+PilarGrua::PilarGrua()
+{
+    agregar(new PlataformaInferior());
+    agregar(MAT_Escalado(0.5,1,0.5));
+    agregar(MAT_Traslacion({0.87,0.35,0.87}));
+    agregar(new Cilindro(10,40));
+    agregar(MAT_Traslacion({0.0,1,0.0}));
+    agregar(new Cilindro(10,40));
+    agregar(MAT_Traslacion({0.0,1,0.0}));
+    agregar(new Cilindro(10,40));
+    agregar(MAT_Traslacion({0.0,1,0.0}));
+    agregar(new Cilindro(10,40));
+
+}
