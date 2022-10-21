@@ -18,10 +18,10 @@ class C : public NodoGrafoEscena
 };
 
 // Rectangulo de la parte inferior de la grua
-class PlataformaInferior : public NodoGrafoEscena
+class PlataformaCuadrada : public NodoGrafoEscena
 {
     public:
-    PlataformaInferior();
+    PlataformaCuadrada();
 };
 
 //Pilar de la grua (Plataforma inferior+Cilindro)
@@ -29,5 +29,20 @@ class PilarGrua : public NodoGrafoEscena
 {
     public:
     PilarGrua();
+};
+
+// Plataforma desplazante
+
+class PlataformaDesplazante : public NodoGrafoEscena
+{
+    protected:
+
+    Matriz4f * pm_tras = nullptr ;
+    public:
+    PlataformaDesplazante();
+
+    virtual unsigned leerNumParametros() const;
+
+    virtual void actualizarEstadoParametro( const unsigned iParam, const float t_sec );
 };
 #endif
