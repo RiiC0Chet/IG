@@ -266,6 +266,7 @@ Escena3::Escena3()
    objetos.push_back(new C(0.0));
    objetos.push_back(new PilarGrua());
    objetos.push_back(new PlataformaDesplazante());
+   objetos.push_back(new PlataformaArriba());
 
 }
 

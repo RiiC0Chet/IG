@@ -28,6 +28,7 @@ void C::actualizarEstadoParametro( const unsigned iParam, const float t_sec )
     }
 
 }
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -38,6 +39,7 @@ PlataformaCuadrada::PlataformaCuadrada()
     agregar(new Cubo());
 }
 
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 PilarGrua::PilarGrua()
 {
     agregar(new PlataformaCuadrada());
@@ -53,6 +55,7 @@ PilarGrua::PilarGrua()
 
 }
 
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 PlataformaDesplazante::PlataformaDesplazante()
 {
     agregar(MAT_Escalado(0.65,0.75,0.65));
@@ -80,6 +83,44 @@ void PlataformaDesplazante::actualizarEstadoParametro( const unsigned iParam, co
     {
         case 0:
             *pm_tras = MAT_Escalado(0.1,1.0+(t_sec/10),0.1) ;
+        break;
+    }
+
+}
+
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+PlataformaArriba::PlataformaArriba()
+{
+    agregar(new Cubo());
+    agregar(MAT_Traslacion({0.0,0,2.0}));
+    agregar(new Cubo());
+    agregar(MAT_Traslacion({0.0,0,2.0}));
+    agregar(new Cubo());
+    agregar(MAT_Traslacion({0.0,0,2.0}));
+    agregar(new Cubo());
+    agregar(MAT_Traslacion({0.0,0,2.0}));
+    agregar(new Cubo());
+    agregar(MAT_Traslacion({0.0,0,2.0}));
+    agregar(new Cubo());
+    agregar(MAT_Traslacion({0.0,0,2.0}));
+    agregar(new Cubo());
+    agregar(MAT_Traslacion({0.1,0,0.0}));
+    agregar(new PlataformaDesplazante());
+}
+
+unsigned PlataformaArriba::leerNumParametros() const 
+{
+    return 1;
+}
+
+void PlataformaArriba::actualizarEstadoParametro( const unsigned iParam, const float t_sec )
+{
+    assert(iParam < leerNumParametros() && iParam >=0);
+
+    switch(iParam)
+    {
+        case 0:
+            entradas.at(14).objeto->actualizarEstadoParametro(iParam,t_sec);
         break;
     }
 
