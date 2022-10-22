@@ -18,6 +18,7 @@ void C::actualizarEstadoParametro( const unsigned iParam, const float t_sec )
 {
     assert(iParam < leerNumParametros() && iParam >=0);
 
+
     switch(iParam)
     {
         case 0:
@@ -58,8 +59,9 @@ PlataformaDesplazante::PlataformaDesplazante()
     agregar(new PlataformaCuadrada());
     // Matriz que vamos a modificar como grado de libertad 
     int indice_1 = agregar(MAT_Escalado(0.1,1.0,0.1));
-    agregar(MAT_Traslacion({4.0,-1.05,4.0}));
+    agregar(MAT_Traslacion({4.5,-1.05,4.5}));
     agregar(new Cilindro(10,40));
+    
 
     // Almacenamos la matriz vvariable con el puntero como variable de instancia pm_tras
     pm_tras = leerPtrMatriz(indice_1);
