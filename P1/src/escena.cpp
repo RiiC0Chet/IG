@@ -264,9 +264,10 @@ Escena3::Escena3()
    using namespace std ;
    cout << "Creando objetos de escena 3 .... " << flush ;
    objetos.push_back(new C(0.0));
-   objetos.push_back(new PilarGrua());
-   objetos.push_back(new PlataformaDesplazante());
+   //objetos.push_back(new PilarGrua());
+   //objetos.push_back(new PlataformaDesplazante());
    objetos.push_back(new PlataformaArriba());
+   objetos.push_back(new Grua(0.0));
 
 }
 

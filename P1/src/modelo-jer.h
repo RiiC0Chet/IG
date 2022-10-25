@@ -51,8 +51,8 @@ class PlataformaDesplazante : public NodoGrafoEscena
 class PlataformaArriba : public NodoGrafoEscena
 {
     protected:
-
     Matriz4f * pm_tras = nullptr ;
+    PlataformaDesplazante * plataforma_desplazante = nullptr;
     public:
     PlataformaArriba();
 
@@ -61,4 +61,19 @@ class PlataformaArriba : public NodoGrafoEscena
     virtual void actualizarEstadoParametro( const unsigned iParam, const float t_sec );
 };
 
+// Grua completa
+
+class Grua : public NodoGrafoEscena
+{
+    protected:
+    Matriz4f * pm_rot = nullptr ;
+    PlataformaArriba * plataforma_arriba = nullptr;
+
+    public:
+    Grua(float alpha);
+    virtual unsigned leerNumParametros() const;
+
+    virtual void actualizarEstadoParametro( const unsigned iParam, const float t_sec );
+
+};
 #endif
