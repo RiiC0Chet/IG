@@ -96,8 +96,12 @@ void PlataformaDesplazante::actualizarEstadoParametro( const unsigned iParam, co
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 PlataformaArriba::PlataformaArriba()
 {
+    
     agregar(MAT_Traslacion({0.0,-0.2,0.0}));
     agregar(MAT_Escalado(0.6,0.6,0.6));
+    agregar(MAT_Traslacion({0.0,0,-3.5}));
+    agregar(new Cubo());
+    agregar(MAT_Traslacion({0.0,0,3.0}));
     agregar(new Cubo());
     agregar(MAT_Traslacion({0.0,0,2.0}));
     agregar(new Cubo());
@@ -109,7 +113,12 @@ PlataformaArriba::PlataformaArriba()
     agregar(new Cubo());
     agregar(MAT_Traslacion({0.0,0,2.0}));
     agregar(new Cubo());
-    agregar(MAT_Traslacion({-0.25,-1.3,-4.5}));
+    agregar(MAT_Traslacion({-0.45,-0.7,-12.2}));
+    agregar(new PlataformaCuadrada);
+
+    //agregar(MAT_Traslacion({0.45,0.7,+12.2}));
+    agregar(MAT_Traslacion({0.2,-0.6,8.3}));
+    
 
     this->ponerColor({0.1,0.2,0.8});
 
