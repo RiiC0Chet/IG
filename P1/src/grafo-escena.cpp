@@ -20,6 +20,8 @@
 
 #include "ig-aux.h"
 #include "grafo-escena.h"
+#include "malla-ind.h"
+#include "malla-revol.h"
 
 using namespace std ;
 
@@ -267,4 +269,51 @@ bool NodoGrafoEscena::buscarObjeto
 
    // ni este nodo ni ningún hijo es el buscado: terminar
    return false ;
+}
+
+
+//---------------------------------------------------------------------------------------
+
+GrafoEstrellaX::GrafoEstrellaX(int n)
+{
+   cout<<"---------------------------------------------------------------------------------------"<<endl;
+   assert(n>1);
+   agregar(MAT_Traslacion({-0.5,-0.5,0.0}));
+   agregar(MAT_Escalado(2.5,2.6,1.0));
+   agregar(MAT_Traslacion({-0.3,-0.3,0.0}));
+   agregar(new EstrellaZ(n));
+
+   // Ahora isnertamos los conos en las esquinas
+   // Invertimos todos los cambios hechos antes para la estrella 
+   agregar(MAT_Traslacion({0.3,0.3,0.0}));
+   agregar(MAT_Escalado(0.4,0.384,1.0));
+   agregar(MAT_Traslacion({0.5,0.5,0.0}));
+   
+   // Aplicamos el escalado
+   agregar(MAT_Escalado(0.14,0.15,0.14));
+
+
+   const int GRADOS_CRIC = 360;
+
+   // converting degrees to radians
+   float pasar_a_radian = M_PI/180;
+
+   float x,y,
+         grados_int_inicial = GRADOS_CRIC/n;
+                                       // mientras que el angulo interno sea distinto al ultimo a generar  ( sum_grados_interno < (GRADOS_CRIC - (GRADOS_CRIC/n)/2) ) && 
+   for(float grados = GRADOS_CRIC/n;grados <= GRADOS_CRIC; grados += grados_int_inicial)
+   {                       // Puntas de la estrella
+      
+      
+      x = (cos(grados*pasar_a_radian)*1.3);
+      y = (sin(grados*pasar_a_radian)*1.3);
+
+      std::cout << "P externooooooooooooooooooooooooooooooo. X: " << x << "\t Yyyyyyyyyyyyyyyyyyyyyyyyyyyyyy: " << y << "\n";
+      agregar(MAT_Rotacion(grados_int_inicial,{0.0,0.0,1.0}));
+      agregar(MAT_Traslacion({x,y,0.0}));
+      agregar(new Cono(10,20));
+      agregar(MAT_Traslacion({-1*x,-1*y,0.0}));
+
+      
+   }
 }

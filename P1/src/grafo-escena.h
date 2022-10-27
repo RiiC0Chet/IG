@@ -97,7 +97,13 @@ class NodoGrafoEscena : public Objeto3D
 
 
 } ;
+// *********************************************************************
 
+class GrafoEstrellaX : public NodoGrafoEscena
+{
+   public:
+   GrafoEstrellaX(int n);
+};
 #endif // GRAFO_ESCENA_HPP
 
 // *********************************************************************
