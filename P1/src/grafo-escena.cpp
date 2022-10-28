@@ -308,11 +308,12 @@ GrafoEstrellaX::GrafoEstrellaX(int n)
       x = (cos(grados*pasar_a_radian)*1.3);
       y = (sin(grados*pasar_a_radian)*1.3);
 
-      std::cout << "P externooooooooooooooooooooooooooooooo. X: " << x << "\t Yyyyyyyyyyyyyyyyyyyyyyyyyyyyyy: " << y << "\n";
-      agregar(MAT_Rotacion(grados_int_inicial,{0.0,0.0,1.0}));
-      agregar(MAT_Traslacion({x,y,0.0}));
+      std::cout << "P externooooooooooooooooooooooooooooooo. X: " << grados << "     " << x << "\n";
+      agregar(MAT_Rotacion(grados,{0.0,0.0,1.0}));
+      agregar(MAT_Traslacion({x/0.14,y/0.15,0.0}));
       agregar(new Cono(10,20));
-      agregar(MAT_Traslacion({-1*x,-1*y,0.0}));
+      agregar(MAT_Traslacion({-1*x/0.14,-1*y/0.15,0.0}));
+      agregar(MAT_Rotacion(360-grados,{0.0,0.0,1.0}));
 
       
    }
