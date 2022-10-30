@@ -96,7 +96,7 @@ void PlataformaDesplazante::actualizarEstadoParametro( const unsigned iParam, co
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 PlataformaArriba::PlataformaArriba()
 {
-    
+    //21
     agregar(MAT_Traslacion({0.0,-0.2,0.0}));
     agregar(MAT_Escalado(0.6,0.6,0.6));
     agregar(MAT_Traslacion({0.0,0,-3.5}));
@@ -116,7 +116,6 @@ PlataformaArriba::PlataformaArriba()
     agregar(MAT_Traslacion({-0.45,-0.7,-12.2}));
     agregar(new PlataformaCuadrada);
 
-    //agregar(MAT_Traslacion({0.45,0.7,+12.2}));
     agregar(MAT_Traslacion({0.2,-0.6,8.3}));
     
 
@@ -182,7 +181,7 @@ void Grua::actualizarEstadoParametro( const unsigned iParam, const float t_sec )
             plataforma_arriba->actualizarEstadoParametro(iParam,t_sec);
         break;
         case 2:
-            float alpha = ( (0+360)/2 ) + ( (360-0)/2 ) * sin((M_PI*t_sec)/6);
+            // da una vuelta cada 10s
             *pm_rot = MAT_Rotacion( 360*t_sec/10, { 0.0, 1.0, 0.0 } ) ;
         break;
     }

@@ -268,7 +268,8 @@ Escena3::Escena3()
    //objetos.push_back(new PlataformaDesplazante());
    objetos.push_back(new PlataformaArriba());
    objetos.push_back(new Grua(0.0));
-   objetos.push_back(new GrafoEstrellaX(8));
+   objetos.push_back(new GrafoEstrellaX(7));
+   objetos.push_back(new GrafoCubos());
 }
 
 // ----------------------------------------------------------------------

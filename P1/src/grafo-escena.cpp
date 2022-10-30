@@ -301,6 +301,8 @@ GrafoEstrellaX::GrafoEstrellaX(int n)
    float x,y,
          grados_int_inicial = GRADOS_CRIC/n;
                                        // mientras que el angulo interno sea distinto al ultimo a generar  ( sum_grados_interno < (GRADOS_CRIC - (GRADOS_CRIC/n)/2) ) && 
+   
+   agregar(MAT_Rotacion(-90,{0.0,0.0,1.0}));
    for(float grados = GRADOS_CRIC/n;grados <= GRADOS_CRIC; grados += grados_int_inicial)
    {                       // Puntas de la estrella
       
@@ -308,13 +310,43 @@ GrafoEstrellaX::GrafoEstrellaX(int n)
       x = (cos(grados*pasar_a_radian)*1.3);
       y = (sin(grados*pasar_a_radian)*1.3);
 
-      std::cout << "P externooooooooooooooooooooooooooooooo. X: " << grados << "     " << x << "\n";
-      agregar(MAT_Rotacion(grados,{0.0,0.0,1.0}));
+      std::cout << "Cono asociado con grados: " << grados << "\n";
+      //agregar(MAT_Rotacion(GRADOS_CRIC/n,{0.0,0.0,1.0}));
       agregar(MAT_Traslacion({x/0.14,y/0.15,0.0}));
       agregar(new Cono(10,20));
       agregar(MAT_Traslacion({-1*x/0.14,-1*y/0.15,0.0}));
-      agregar(MAT_Rotacion(360-grados,{0.0,0.0,1.0}));
+      //agregar(MAT_Rotacion(360-grados,{0.0,0.0,1.0}));
 
       
    }
+}
+
+//---------------------------------------------------------------------------------------
+GrafoCuboX::GrafoCuboX()
+{
+   agregar(MAT_Traslacion({-0.5,-0.5,-0.5}));
+
+   agregar(new RejillaY(5,5));
+   agregar(MAT_Traslacion({0.0,1.0,0.0}));
+   agregar(new RejillaY(5,5));
+   agregar(MAT_Traslacion({0.0,-1.0,0.0}));
+
+   agregar(MAT_Rotacion(90,{0.0,0.0,1.0}));
+   agregar(new RejillaY(5,5));
+   agregar(MAT_Traslacion({0.0,-1.0,0.0}));
+   agregar(new RejillaY(5,5));
+   agregar(MAT_Traslacion({0.0,1.0,0.0}));
+   agregar(MAT_Rotacion(360-90,{0.0,0.0,1.0}));
+
+   agregar(MAT_Rotacion(90,{-1.0,0.0,0.0}));
+   agregar(new RejillaY(5,5));
+   agregar(MAT_Traslacion({0.0,-1.0,0.0}));
+   agregar(new RejillaY(5,5));
+}
+
+GrafoCubos::GrafoCubos()
+{
+   agregar(new GrafoCuboX());
+
+   agregar(MAT_Escalado(0.3,0.4,0.3));
 }

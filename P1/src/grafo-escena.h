@@ -104,6 +104,20 @@ class GrafoEstrellaX : public NodoGrafoEscena
    public:
    GrafoEstrellaX(int n);
 };
+
+// *********************************************************************
+class GrafoCuboX : public NodoGrafoEscena
+{
+   public:
+   GrafoCuboX();
+};
+
+class GrafoCubos : public NodoGrafoEscena
+{
+   public:
+   GrafoCubos();
+};
+
 #endif // GRAFO_ESCENA_HPP
 
 // *********************************************************************
