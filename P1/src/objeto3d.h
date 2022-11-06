@@ -122,12 +122,6 @@ class Objeto3D
          const Matriz4f & mmodelado, Objeto3D ** objeto, Tupla3f & centro_wc )  ;
 
     
-
-
-
-
-   protected: // -----
-
       // actualiza el valor de un parámetro a un instante de tiempo
       //  iParam : índice del parámetro (entre 0 y numParametros()-1 )
       // 't_sec' :  tiempo en segundos desde el estado inicial
