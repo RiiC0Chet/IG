@@ -101,11 +101,27 @@ class NodoGrafoEscena : public Objeto3D
 
 class GrafoEstrellaX : public NodoGrafoEscena
 {
+   protected:
+
+   Matriz4f * pm_rot = nullptr ;
    public:
-   GrafoEstrellaX(int n);
+   GrafoEstrellaX(int n, float alpha);
+
+   virtual unsigned leerNumParametros() const;
+
+   virtual void actualizarEstadoParametro( const unsigned iParam, const float t_sec );
 };
 
 // *********************************************************************
+
+class ConoX : public NodoGrafoEscena
+{
+   public:
+   ConoX(float x, float y, float grados);
+};
+
+// *********************************************************************
+
 class GrafoCuboX : public NodoGrafoEscena
 {
    public:

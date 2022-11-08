@@ -65,14 +65,14 @@ PlataformaDesplazante::PlataformaDesplazante()
     this->ponerColor({0.1,1.0,0.4});
 
     // Matriz que vamos a modificar como grado de libertad 
-    int indice_1 = agregar(MAT_Escalado(0.1,1.0,0.1));
+    int crecimiento_cuerda = agregar(MAT_Escalado(0.1,1.0,0.1));
     agregar(MAT_Traslacion({4.5,-1.05,4.5}));
     agregar(new Cilindro(10,40));
     
     
 
     // Almacenamos la matriz vvariable con el puntero como variable de instancia pm_tras
-    pm_tras = leerPtrMatriz(indice_1);
+    pm_tras = leerPtrMatriz(crecimiento_cuerda);
 }
 
 unsigned PlataformaDesplazante::leerNumParametros() const 
@@ -121,11 +121,11 @@ PlataformaArriba::PlataformaArriba()
 
     this->ponerColor({0.1,0.2,0.8});
 
-    int indice_1 = agregar(MAT_Traslacion({0.0,0.0,0.0}));
+    int desplazamiento = agregar(MAT_Traslacion({0.0,0.0,0.0}));
     plataforma_desplazante = new PlataformaDesplazante();
     agregar(plataforma_desplazante);
 
-    pm_tras = leerPtrMatriz(indice_1);
+    pm_tras = leerPtrMatriz(desplazamiento);
 }
 
 unsigned PlataformaArriba::leerNumParametros() const 
@@ -156,11 +156,11 @@ Grua::Grua(float alpha)
 {
     agregar(new PilarGrua());
     agregar(MAT_Traslacion({0.45,5.0,0.45}));
-    int  indicie_1 = agregar(MAT_Rotacion( alpha, { 0.0, 1.0, 0.0 } ));
+    int  rotacion = agregar(MAT_Rotacion( alpha, { 0.0, 1.0, 0.0 } ));
     plataforma_arriba = new PlataformaArriba();
     agregar(plataforma_arriba);
 
-    pm_rot = leerPtrMatriz(indicie_1);
+    pm_rot = leerPtrMatriz(rotacion);
 }
 
 unsigned Grua::leerNumParametros() const 

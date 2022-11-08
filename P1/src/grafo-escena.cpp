@@ -274,10 +274,12 @@ bool NodoGrafoEscena::buscarObjeto
 
 //---------------------------------------------------------------------------------------
 
-GrafoEstrellaX::GrafoEstrellaX(int n)
+GrafoEstrellaX::GrafoEstrellaX(int n, float alpha)
 {
    cout<<"---------------------------------------------------------------------------------------"<<endl;
    assert(n>1);
+   int indice_1 = agregar(MAT_Rotacion(alpha,{1.0,0.0,0.0}));
+   
    agregar(MAT_Traslacion({-0.5,-0.5,0.0}));
    agregar(MAT_Escalado(2.5,2.6,1.0));
    agregar(MAT_Traslacion({-0.3,-0.3,0.0}));
@@ -288,9 +290,6 @@ GrafoEstrellaX::GrafoEstrellaX(int n)
    agregar(MAT_Traslacion({0.3,0.3,0.0}));
    agregar(MAT_Escalado(0.4,0.384,1.0));
    agregar(MAT_Traslacion({0.5,0.5,0.0}));
-   
-   // Aplicamos el escalado
-   agregar(MAT_Escalado(0.14,0.15,0.14));
 
 
    const int GRADOS_CRIC = 360;
@@ -302,7 +301,6 @@ GrafoEstrellaX::GrafoEstrellaX(int n)
          grados_int_inicial = GRADOS_CRIC/n;
                                        // mientras que el angulo interno sea distinto al ultimo a generar  ( sum_grados_interno < (GRADOS_CRIC - (GRADOS_CRIC/n)/2) ) && 
    
-   agregar(MAT_Rotacion(-90,{0.0,0.0,1.0}));
    for(float grados = GRADOS_CRIC/n;grados <= GRADOS_CRIC; grados += grados_int_inicial)
    {                       // Puntas de la estrella
       
@@ -310,17 +308,43 @@ GrafoEstrellaX::GrafoEstrellaX(int n)
       x = (cos(grados*pasar_a_radian)*1.3);
       y = (sin(grados*pasar_a_radian)*1.3);
 
-      std::cout << "Cono asociado con grados: " << grados << "\n";
-      //agregar(MAT_Rotacion(GRADOS_CRIC/n,{0.0,0.0,1.0}));
-      agregar(MAT_Traslacion({x/0.14,y/0.15,0.0}));
-      agregar(new Cono(10,20));
-      agregar(MAT_Traslacion({-1*x/0.14,-1*y/0.15,0.0}));
-      //agregar(MAT_Rotacion(360-grados,{0.0,0.0,1.0}));
+      std::cout << "Cono asociado con grados: " << x <<" "<<grados << "\n";
+      
+      agregar(new ConoX(x,y, grados));
 
       
    }
+
+   pm_rot = leerPtrMatriz(indice_1);
+
 }
 
+unsigned GrafoEstrellaX::leerNumParametros() const
+{
+   return 1;
+}
+
+void GrafoEstrellaX::actualizarEstadoParametro( const unsigned iParam, const float t_sec )
+{
+   assert(iParam < leerNumParametros() && iParam >=0);
+
+    switch(iParam)
+    {
+        case 0:
+            // da una vuelta cada 10s
+            *pm_rot = MAT_Rotacion( 360*t_sec*2.5, { 1.0, 0.0, 0.0 } ) ;
+        break;
+    }
+}
+//---------------------------------------------------------------------------------------
+ConoX::ConoX(float x, float y, float grados)
+{
+   agregar(MAT_Traslacion({x,y,0.0}));
+   agregar(MAT_Rotacion(grados-90,{0.0,0.0,1.0}));
+   // Aplicamos el escalado
+   agregar(MAT_Escalado(0.14,0.15,0.14));
+   agregar(new Cono(10,20));
+}
 //---------------------------------------------------------------------------------------
 GrafoCuboX::GrafoCuboX()
 {
@@ -350,3 +374,5 @@ GrafoCubos::GrafoCubos()
 
    agregar(MAT_Escalado(0.3,0.4,0.3));
 }
+
+//---------------------------------------------------------------------------------------
