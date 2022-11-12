@@ -131,7 +131,7 @@ class GrafoCuboX : public NodoGrafoEscena
 class GrafoCubos : public NodoGrafoEscena
 {
    public:
-   GrafoCubos();
+   GrafoCubos(Tupla3f cara);
 };
 
 #endif // GRAFO_ESCENA_HPP

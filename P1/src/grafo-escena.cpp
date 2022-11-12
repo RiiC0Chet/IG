@@ -278,6 +278,7 @@ GrafoEstrellaX::GrafoEstrellaX(int n, float alpha)
 {
    cout<<"---------------------------------------------------------------------------------------"<<endl;
    assert(n>1);
+   agregar(MAT_Rotacion( 90, { 0.0, 1.0, 0.0 } ) ) ;
    int indice_1 = agregar(MAT_Rotacion(alpha,{1.0,0.0,0.0}));
    
    agregar(MAT_Traslacion({-0.5,-0.5,0.0}));
@@ -368,11 +369,11 @@ GrafoCuboX::GrafoCuboX()
    agregar(new RejillaY(5,5));
 }
 
-GrafoCubos::GrafoCubos()
+GrafoCubos::GrafoCubos(Tupla3f cara)
 {
-   agregar(new GrafoCuboX());
-
-   agregar(MAT_Escalado(0.3,0.4,0.3));
+   agregar(MAT_Escalado(0.1,0.1,0.1));
+   agregar(MAT_Escalado(1.0*cara(0),1.0*cara(1),1.0*cara(2)));
+   agregar(new Cubo());
 }
 
 //---------------------------------------------------------------------------------------
