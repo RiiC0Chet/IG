@@ -270,7 +270,7 @@ Escena3::Escena3()
    objetos.push_back(new Grua(0.0));
    objetos.push_back(new GrafoEstrellaX(6,0.0));
    objetos.push_back(new GrafoCuboX());
-   objetos.push_back(new GrafoCubos({1.5,1.0,1.0}));
+   objetos.push_back(new GrafoCubos({1.0,0.0,0.0}));
 }
 
 // ----------------------------------------------------------------------

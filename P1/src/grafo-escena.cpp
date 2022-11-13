@@ -332,7 +332,7 @@ void GrafoEstrellaX::actualizarEstadoParametro( const unsigned iParam, const flo
     switch(iParam)
     {
         case 0:
-            // da una vuelta cada 10s
+            // da 2.5 vueltas por segudno
             *pm_rot = MAT_Rotacion( 360*t_sec*2.5, { 1.0, 0.0, 0.0 } ) ;
         break;
     }
@@ -349,6 +349,27 @@ ConoX::ConoX(float x, float y, float grados)
 //---------------------------------------------------------------------------------------
 GrafoCuboX::GrafoCuboX()
 {
+   //Insertamos los cubitos chicos
+   cubo_1 = new GrafoCubos({1.0,0.0,0.0});
+   agregar(cubo_1);
+
+   cubo_2 = new GrafoCubos({-1.0,0.0,0.0});
+   agregar(cubo_2);
+
+   cubo_3 = new GrafoCubos({0.0,1.0,0.0});
+   agregar(cubo_3);
+
+   cubo_4 = new GrafoCubos({0.0,-1.0,0.0});
+   agregar(cubo_4);
+
+   cubo_5 = new GrafoCubos({0.0,0.0,1.0});
+   agregar(cubo_5);
+
+   cubo_6 = new GrafoCubos({0.0,0.0,-1.0});
+   agregar(cubo_6);
+
+
+   //Empezamos a formar el cubo
    agregar(MAT_Traslacion({-0.5,-0.5,-0.5}));
 
    agregar(new RejillaY(5,5));
@@ -369,11 +390,105 @@ GrafoCuboX::GrafoCuboX()
    agregar(new RejillaY(5,5));
 }
 
+unsigned GrafoCuboX::leerNumParametros() const
+{
+   return 1;
+}
+
+void GrafoCuboX::actualizarEstadoParametro( const unsigned iParam, const float t_sec )
+{
+   assert(iParam < leerNumParametros() && iParam >=0);
+
+    switch(iParam)
+    {
+        case 0:
+            cubo_1->actualizarEstadoParametro(iParam,t_sec);
+            cubo_2->actualizarEstadoParametro(iParam,t_sec);
+            cubo_3->actualizarEstadoParametro(iParam,t_sec);
+            cubo_4->actualizarEstadoParametro(iParam,t_sec);
+            cubo_5->actualizarEstadoParametro(iParam,t_sec);
+            cubo_6->actualizarEstadoParametro(iParam,t_sec);
+        break;
+
+    }
+}
+
+
+
 GrafoCubos::GrafoCubos(Tupla3f cara)
 {
+   int indice_rot = agregar(MAT_Rotacion(0.0,{1.0,0.0,0.0}));
    agregar(MAT_Escalado(0.1,0.1,0.1));
-   agregar(MAT_Escalado(1.0*cara(0),1.0*cara(1),1.0*cara(2)));
+
+   if(cara(0) == 1.0)
+   {
+      cara_ = 0;
+      agregar(MAT_Traslacion({0.62/0.1,0.0,0.0}));
+      agregar(MAT_Escalado(1.0*1.5,1.0,1.0));
+   }
+   else if(cara(0) == -1.0)
+   {
+      cara_ = 0;
+      agregar(MAT_Traslacion({-0.62/0.1,0.0,0.0}));
+      agregar(MAT_Escalado(1.0*1.5,1.0,1.0));
+   }
+   else if(cara(1) == 1.0)
+   {
+      cara_ = 1;
+      agregar(MAT_Traslacion({0.0,0.62/0.1,0.0}));
+      agregar(MAT_Escalado(1.0,1.0*1.5,1.0));
+   }
+   else if(cara(1) == -1.0)
+   {
+      cara_ = 1;
+      agregar(MAT_Traslacion({0.0,-0.62/0.1,0.0}));
+      agregar(MAT_Escalado(1.0,1.0*1.5,1.0));
+   }
+   else if(cara(2) == 1.0)
+   {
+      cara_ = 2;
+      agregar(MAT_Traslacion({0.0,0.0,0.62/0.1}));
+      agregar(MAT_Escalado(1.0,1.0,1.0*1.5));
+   }
+   else
+   {
+      cara_ = 2;
+      agregar(MAT_Traslacion({0.0,0.0,-0.62/0.1}));
+      agregar(MAT_Escalado(1.0,1.0,1.0*1.5));
+   }
+   
    agregar(new Cubo());
+
+   pm_rot = leerPtrMatriz(indice_rot);
 }
+
+unsigned GrafoCubos::leerNumParametros() const
+{
+   return 1;
+}
+
+void GrafoCubos::actualizarEstadoParametro( const unsigned iParam, const float t_sec )
+{
+   assert(iParam < leerNumParametros() && iParam >=0);
+
+    switch(iParam)
+    {
+        case 0:
+            if(cara_ == 0)
+            {
+               *pm_rot = MAT_Rotacion( 360*t_sec, { 1.0, 0.0, 0.0 } ) ;
+            }
+            else if(cara_ == 1)
+            {
+               *pm_rot = MAT_Rotacion( 360*t_sec, { 0.0, 1.0, 0.0 } ) ;
+            }
+            else
+            {
+               *pm_rot = MAT_Rotacion( 360*t_sec, { 0.0, 0.0, 1.0 } ) ;
+            }
+            break;
+    }
+}
+
 
 //---------------------------------------------------------------------------------------

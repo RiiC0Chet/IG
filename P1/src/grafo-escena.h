@@ -122,16 +122,34 @@ class ConoX : public NodoGrafoEscena
 
 // *********************************************************************
 
-class GrafoCuboX : public NodoGrafoEscena
-{
-   public:
-   GrafoCuboX();
-};
-
 class GrafoCubos : public NodoGrafoEscena
 {
+   protected:
+
+   Matriz4f * pm_rot = nullptr ;
+   int cara_;
+
    public:
    GrafoCubos(Tupla3f cara);
+
+   virtual unsigned leerNumParametros() const;
+
+   virtual void actualizarEstadoParametro( const unsigned iParam, const float t_sec );
+
+};
+
+class GrafoCuboX : public NodoGrafoEscena
+{
+   protected:
+   GrafoCubos *cubo_1, *cubo_2, *cubo_3, *cubo_4,
+               *cubo_5, *cubo_6;
+   public:
+   GrafoCuboX();
+
+   virtual unsigned leerNumParametros() const;
+
+   virtual void actualizarEstadoParametro( const unsigned iParam, const float t_sec );
+
 };
 
 #endif // GRAFO_ESCENA_HPP
