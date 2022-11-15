@@ -1,3 +1,6 @@
+// Nombre: Jose Luis Apellidos: Rico Ramos Titulación: GIADE
+// email: jlricoramos@correo.ugr.es DNI o pasaporte: 20080849D
+
 // *********************************************************************
 // **
 // ** Gestión de una grafo de escena (implementación)
