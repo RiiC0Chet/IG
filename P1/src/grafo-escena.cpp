@@ -278,8 +278,9 @@ GrafoEstrellaX::GrafoEstrellaX(int n, float alpha)
 {
    cout<<"---------------------------------------------------------------------------------------"<<endl;
    assert(n>1);
-   agregar(MAT_Rotacion( 90, { 0.0, 1.0, 0.0 } ) ) ;
    int indice_1 = agregar(MAT_Rotacion(alpha,{1.0,0.0,0.0}));
+   agregar(MAT_Rotacion( 90, { 0.0, 1.0, 0.0 } ) ) ;
+   
    
    agregar(MAT_Traslacion({-0.5,-0.5,0.0}));
    agregar(MAT_Escalado(2.5,2.6,1.0));
