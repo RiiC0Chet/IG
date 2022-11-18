@@ -13,6 +13,7 @@
 #include "seleccion.h"
 #include "modelo-jer.h"
 
+#include "Examen_1.h"
 
 
 
@@ -272,6 +273,7 @@ Escena3::Escena3()
    objetos.push_back(new GrafoEstrellaX(6,0.0));
    objetos.push_back(new GrafoCuboX());
    objetos.push_back(new GrafoCubos({1.0,0.0,0.0}));
+   objetos.push_back(new PlataformaArriba());
 }
 
 // ----------------------------------------------------------------------
@@ -288,5 +290,13 @@ Escena3::Escena3()
 // los objetos que se indican en los guiones de las práctica 5
 // .......
 
+// ----------------------------------------------------------------------
 
-
+EscenaExamen::EscenaExamen()
+{
+   using namespace std ;
+   cout << "Creando objetos de escena examen .... " << flush ;
+   objetos.push_back(new Varita());
+   objetos.push_back(new PlataformaArriba());
+   
+}
