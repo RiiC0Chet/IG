@@ -605,3 +605,59 @@ MallaTorre::MallaTorre(int n)
    }
 }
 // -----------------------------------------------------------------------------------------------
+MallaPiramideL::MallaPiramideL()
+:  MallaInd( "Malla piramide" )
+{
+
+   vertices =
+      {  
+         { 0.0, 0.0, 0.0}, // 0
+         { 0.0, 0.0, -1.0}, // 1
+         { 1.0, 0.0, -1.0}, // 2
+         { 1.0, 0.0, 1.0 }, // 3
+         { -1.0, 0.0, 1.0 }, // 4
+         { -1.0, 0.0, 0.0}, // 5
+         { 0.0, 2.0, 0.0} // 6
+      } ;
+
+   triangulos =
+      {  {0,1,2}, {0,4,5}, {0,2,3}, {0,3,4},
+         {6,0,1}, {6,1,2}, {6,2,3}, {6,3,4},
+         {6,4,5}, {6,5,0}
+
+      } ;
+
+}
+// Ejercicio tipo examen
+
+Diamante::Diamante(): MallaInd( "Diamante SIMS " )
+{
+
+   vertices.clear();
+
+   // Base
+   vertices.push_back({0.5, 0, 0.5}); // 0
+   vertices.push_back({0.5, 0, -0.5});  // 1
+   vertices.push_back({-0.5, 0, -0.5});   // 2
+   vertices.push_back({-0.5, 0, 0.5}); // 3
+
+   // Picos
+   vertices.push_back({0.0, 1, 0.0}); // 4
+   vertices.push_back({0.0, -1, 0.0}); // 5
+
+
+   triangulos =
+      {  
+         {0, 1, 4}, {1, 2, 4}, {2, 3, 4}, {0, 3, 4},  // Parte de arriba
+
+         {0, 1, 5}, {1, 2, 5}, {2, 3, 5}, {0, 3, 5}   // Parte de abajo
+
+      } ;
+
+   
+   for(int i=0; i<vertices.size(); i++){
+      col_ver.push_back({0,1,0});
+   }
+
+}
+// -----------------------------------------------------------------------------------------------

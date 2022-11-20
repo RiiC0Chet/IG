@@ -230,6 +230,10 @@ Escena1::Escena1()
 
    objetos.push_back( new CasaX());
 
+   objetos.push_back( new MallaPiramideL());
+
+   objetos.push_back( new Diamante());
+
    cout << "hecho." << endl << flush ;
 }
 
@@ -252,6 +256,8 @@ Escena2::Escena2()
    objetos.push_back(new PiramideEstrellaZ(4));
    objetos.push_back(new RejillaY(5,5));
    objetos.push_back(new MallaTorre(5));
+   objetos.push_back(new HiperPeon(10,20));
+   objetos.push_back(new Aro(10,10,1.0,5.0,{1.0,0.3,0.8}));
    
 }
 
@@ -296,7 +302,6 @@ EscenaExamen::EscenaExamen()
 {
    using namespace std ;
    cout << "Creando objetos de escena examen .... " << flush ;
-   objetos.push_back(new Varita());
-   objetos.push_back(new PlataformaArriba());
-   
+   objetos.push_back(new VaritaFinal());
+   objetos.push_back(new SoporteFinal(6));
 }

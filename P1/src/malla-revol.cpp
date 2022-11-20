@@ -170,3 +170,40 @@ Cono::Cono(const int num_verts_per, const unsigned nperfiles)
    inicializar(perfil,nperfiles);
 
 }
+
+// ----------------------------------Examen juanan-------------------------------------------
+Aro::Aro( const int num_verts_per,
+                  const unsigned nperfiles, float rInterno, float rEje, Tupla3f color)
+{
+   std::vector<Tupla3f> perfil;
+    float radianes_rotacion = 2.0*M_PI / num_verts_per;
+    //float desfase = -M_PI/2;
+   for(int i=0; i<=num_verts_per; i++)
+      perfil.push_back({rEje + rInterno*cos(i*radianes_rotacion) ,rInterno*sin(i*radianes_rotacion),0.0});
+
+   inicializar (perfil, nperfiles);
+
+   for(int i=0; i < vertices. size(); i++)
+      col_ver.push_back(color);
+}
+
+HiperPeon::HiperPeon(const int num_verts_per,const unsigned nperfiles)
+{
+   std::vector<Tupla3f> perfil;
+   float radianes_rotacion = M_PI / (num_verts_per-1);
+   float desfase = M_PI/2;
+   for(int i=0; i<num_verts_per; i++)
+   {
+      Tupla3f t = {cos(desfase - i*radianes_rotacion ) ,sin(desfase-i*radianes_rotacion) + 2, 0.0};
+      perfil.push_back(MAT_Escalado(2.0,1.0,1.0)*t); //Para intentar ponerlos de arriba a abajo
+   }
+
+   for(int i=0; i<num_verts_per; i++)
+   {
+      perfil.push_back({1.0 - (i*(1.0/(num_verts_per-1))),(i*(1.0/(num_verts_per-1))), 0.0});
+   }
+
+   inicializar(perfil, nperfiles);
+
+   }
+// -----------------------------------------------------------------------------

@@ -147,4 +147,18 @@ class MallaTorre : public MallaInd
    public:
    MallaTorre(int n);
 };
+
+// -----------------------------Ejercicio tipo examen----------------------------------------
+
+class MallaPiramideL : public MallaInd
+{
+   public:
+   MallaPiramideL();
+};
+
+class Diamante : public MallaInd
+{
+   public:
+   Diamante();
+};
 #endif
