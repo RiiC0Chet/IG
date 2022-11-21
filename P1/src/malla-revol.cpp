@@ -206,4 +206,38 @@ HiperPeon::HiperPeon(const int num_verts_per,const unsigned nperfiles)
    inicializar(perfil, nperfiles);
 
    }
-// -----------------------------------------------------------------------------
+
+   // -----------------------------------------------------------------------------
+   void MallaBarrido::inicializar(
+      const std::vector<Tupla3f> & perfil,     // tabla de vértices del perfil original
+      const unsigned               num_copias  // número de copias del perfil
+   ) {
+      float altura_sumar = 1.0/(num_copias-1);
+      for(int i=0; i < num_copias; i++){
+         for(int j=0; j<perfil.size(); j++){
+            Tupla3f q= perfil.at(j);
+            q(Y)=i*altura_sumar;
+            vertices.push_back(q);
+         }
+      }
+      int m = perfil.size();
+      for(int i=0; i < num_copias-1; i++){
+         for(int j = 0; j < m-1;j++ ){
+            int k = i*m + j;
+            triangulos.push_back({k,k+m,k+m+1});
+            triangulos.push_back({k,k+m+1, k+1});
+         }
+      }
+   }
+
+   CilindroBarrido::CilindroBarrido(const int num_verts_per, const unsigned nperfiles){
+      std::vector<Tupla3f> perfil;
+      float radianes_rotacion = M_PI / (num_verts_per-1);
+      for(int i=0; i<num_verts_per; i++){
+         perfil.push_back({cos(i*radianes_rotacion ) ,0.0, sin(i*radianes_rotacion)}); //Para intentar ponerlos de arriba a abajo
+      }
+
+      inicializar(perfil, nperfiles);
+
+   }
+   // -----------------------------------------------------------------------------

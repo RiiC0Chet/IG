@@ -234,6 +234,8 @@ Escena1::Escena1()
 
    objetos.push_back( new Diamante());
 
+   objetos.push_back(new CuboEstrella());
+
    cout << "hecho." << endl << flush ;
 }
 
@@ -258,7 +260,7 @@ Escena2::Escena2()
    objetos.push_back(new MallaTorre(5));
    objetos.push_back(new HiperPeon(10,20));
    objetos.push_back(new Aro(10,10,1.0,5.0,{1.0,0.3,0.8}));
-   
+   objetos.push_back(new CilindroBarrido(10,20));
 }
 
 // -------------------------------------------------------------------------

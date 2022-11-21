@@ -161,4 +161,12 @@ class Diamante : public MallaInd
    public:
    Diamante();
 };
+
+// -----------------------------Ejercicio examen Grupo A2----------------------------------------
+
+class CuboEstrella : public MallaInd
+{
+   public:
+   CuboEstrella();
+};
 #endif
