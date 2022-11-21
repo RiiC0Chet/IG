@@ -46,8 +46,8 @@ void VaritaFinal::actualizarEstadoParametro( const unsigned iParam, const float 
     switch(iParam)
     {
         case 0:
-            // oscilamos entre 10 (360+10) y 90 (360+90) grados respecto al eje Y cada 10 segundos
-            float v = ((370+450)/2)+((450-370)/2)*sin(2*M_PI*t_sec);
+            // oscilamos entre 10 (360+10) y 90 (360+90) grados respecto al eje Y, 2 veces por segundo
+            float v = ((370+450)/2)+((450-370)/2)*sin(2*M_PI*t_sec*2);
             *pm_rot = MAT_Rotacion( v , { 0.0, 0.0, 1.0 } ) ;
         break;
     }
