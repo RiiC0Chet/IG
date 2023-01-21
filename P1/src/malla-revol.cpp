@@ -26,39 +26,83 @@ void MallaRevol::inicializar
    const std::vector<Tupla3f> & perfil,     // tabla de vértices del perfil original
    const unsigned               num_copias  // número de copias del perfil
 )
-{
+{  
+   // COMPLETAR: Práctica 4: crear tablas de normales 
+   vector<Tupla3f> nor_arist_per;           // vector de normales de las aristas del perfil
+   vector<Tupla3f> nor_vert_per;            // vector de normales de los vertices del perfil
+   Tupla3f nor_ari;                         // valor auxiliar para ir calculando nor_arist_per
+   Tupla3f nor_vert;                        // valor auxiliar para ir calculando nor_vert_per
+
+   // Calculamos las normales de las aristas
+   for(uint i = 1; i < perfil.size(); i++){
+      nor_ari = MAT_Rotacion(-90,{0.0,0.0,1.0})*(perfil[i] - perfil[i-1]);
+      if(nor_ari.lengthSq() != 0.0)
+         nor_ari = nor_ari.normalized();
+      nor_arist_per.push_back(nor_ari);
+   }
+
+   // Calculamos las normales de los vertices
+   nor_vert_per.push_back(nor_arist_per[0]);
+   for(uint i = 0; i < nor_arist_per.size() - 1; i++){
+      nor_vert = (nor_arist_per[i] + nor_arist_per[i+1]).normalized();
+      nor_vert_per.push_back(nor_vert);
+   }
+   nor_vert_per.push_back(nor_arist_per[nor_arist_per.size()-1]);
+
+   // y calcular coordenadas de textura
+   vector<float> d;
+   vector<float> t;
+
+   // Calculo de d
+   for(uint i = 0; i < perfil.size() - 1; i++){
+      d.push_back(sqrt((perfil[i+1] - perfil[i]).lengthSq()));
+   }
+
+   // Calculamos el normalizador
+   float sum = 0.0f;
+   for(uint i = 0; i < d.size(); i++){
+      sum += d[i];
+   }
+
+   // Inicializamos t para simplificar el algoritmo
+   for(uint i = 0; i < perfil.size(); i++){
+      t.push_back(0.0);
+   }
+
+   // Calculo de t
+   for(uint i = 0; i < perfil.size(); i++){
+      for(uint j = 0; j < i; j++){
+         t[i] += d[j];
+      }
+      t[i] = t[i]/sum*1.0f;
+   }
+
    // COMPLETAR: Práctica 2: completar: creación de la malla....
-   
-   int k; // auxiliar para la creacion de los nuevos triangulos
-   float x_aux,z_aux; // auxiliares para la creacion de las nuevas tuplas
-
-   // Creamos la tabla de vertices
-   for(int i=0;i<=(num_copias-1);i++)
-   {
-      for(int j=0;j<=(perfil.size()-1);j++)
-      {
-         // calculamos las nuevas tuplas de revolucion
-         x_aux = perfil.at(j)(0) * cos( ((i*2*M_PI) / (num_copias-1)) );
-         z_aux = perfil.at(j)(0) * sin( ((i*2*M_PI) / (num_copias-1)) );
-
-         // introducimos el nuevo punto en la tabla de vertices
-         vertices.push_back({x_aux,perfil.at(j)(1),z_aux});
+   vertices.clear();
+   for(uint i = 0; i < num_copias; i++){
+      for (uint j = 0; j < perfil.size(); j++){
+         // Creamos los vertices
+         Tupla3f aux = MAT_Rotacion(360.0f*i/(num_copias-1)*1.0,{0,1,0})*perfil.at(j);
+         vertices.push_back(aux);
+         // Creamos la tabla de normales de vertices
+         aux = MAT_Rotacion(360.0f*i/(num_copias-1)*1.0,{0,1,0})*nor_vert_per[j];
+         nor_ver.push_back(aux);
+         // Añadimos las coordenadas de textura
+         cc_tt_ver.push_back({i/(num_copias-1.0f),1-t[j]});
+         CError();
       }
    }
+   CError();
 
-   // Creamos la tabla de triangulos
-   for(int i=0;i<=(num_copias-2);i++)
-   {
-      for(int j=0;j<=(perfil.size()-2);j++)
-      {
-         // asignamos la variable k
-         k = (i*perfil.size()) + j;
-
-         // Creamos lso 2 nuevos triangulos asociados con cada uno de los nuevos vertices
-         triangulos.push_back({k,k+perfil.size(),k+perfil.size()+1});
-         triangulos.push_back({k,k+perfil.size()+1,k+1});
+   // Creamos las caras
+   for(uint i = 0; i < num_copias - 1; i++){
+      for (uint j = 0; j < perfil.size() - 1; j++){
+         uint k = i*perfil.size() + j;
+         triangulos.push_back({k, k + (uint)perfil.size(),k + (uint)perfil.size() + 1});
+         triangulos.push_back({k, k + (uint)perfil.size() + 1, k + 1});
       }
    }
+   CError();
 }
 
 // -----------------------------------------------------------------------------
@@ -123,17 +167,17 @@ Cilindro::Cilindro(const int num_verts_per, const unsigned nperfiles)
    // Creamos el vector de tuplas donde se va a almacenar la instancia 0 del perfil
    std::vector<Tupla3f>  perfil;
 
-   // Introducimos tapa arriba
-   perfil.push_back({0,1.0,0});
-
-   for(int i = 0;i<num_verts_per;i++ )
-   {
-      perfil.push_back({1,aux,0});
-      aux-=decremento;  
-   }
-
    // Introducimos tapa abajo
    perfil.push_back({0,0,0});
+   
+
+   for(int i = 0; i < num_verts_per; i++){
+      perfil.push_back({1,float(i*1.0/(num_verts_per - 1)*1.0),0});
+   }
+
+
+   // Introducimos tapa arriba
+   perfil.push_back({0,1.0,0});
    
 
    inicializar(perfil,nperfiles);

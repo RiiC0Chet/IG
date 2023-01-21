@@ -87,6 +87,8 @@ void NodoGrafoEscena::visualizarGL( ContextoVis & cv )
    // COMPLETAR: práctica 3: recorrer las entradas y visualizar cada nodo.
    // ........
 
+   //copiamos al material previo 
+   Material * material_pre = cv.material_act;
    // guarda modelview actual
    cv.cauce->pushMM();
 
@@ -105,6 +107,9 @@ void NodoGrafoEscena::visualizarGL( ContextoVis & cv )
          case TipoEntNGE::transformacion : // entrada transf.:
             cv.cauce->compMM( *(entradas[i].matriz)); // componer matriz
          break ;
+         case TipoEntNGE::material :
+            if(cv.iluminacion) entradas[i].material->activar(cv);
+         break;
       }
    }
    
@@ -114,6 +119,12 @@ void NodoGrafoEscena::visualizarGL( ContextoVis & cv )
    // restaura modelview guardada
    cv.cauce->popMM() ;
 
+   // si el material previo no es nulo, lo copiamos y lo activamos
+   if(material_pre != nullptr)
+   {
+      cv.material_act = material_pre;
+      cv.material_act->activar( cv );
+   }
 
    // COMPLETAR: práctica 4: en la práctica 4, si 'cv.iluminacion' es 'true',
    // se deben de gestionar los materiales:
@@ -494,5 +505,11 @@ void GrafoCubos::actualizarEstadoParametro( const unsigned iParam, const float t
     }
 }
 
+
+//---------------------------------------------------------------------------------------
+NodoCubo24::NodoCubo24()
+{
+   
+}
 
 //---------------------------------------------------------------------------------------

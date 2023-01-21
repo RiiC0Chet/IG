@@ -37,15 +37,28 @@ void C::actualizarEstadoParametro( const unsigned iParam, const float t_sec )
 
 PlataformaCuadrada::PlataformaCuadrada()
 {
+    // Textura que generamos con la tabla de coordenadas de textura de Cubo24
+    Textura * tex = new Textura ("textura-examen.jpg");
+    // Material eminentemente difuso
+    Material * Material1 = new Material(tex,0.4, 1.8, 1.1, 1.0);
+    
+    agregar(Material1);
     agregar(MAT_Escalado(0.85,0.25,0.85));
     agregar(MAT_Traslacion({0.5,0.5,0.5}));
-    agregar(new Cubo());
+    agregar(new Cubo24());
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 PilarGrua::PilarGrua()
 {
+    // Textura que generamos de forma automatica en modo coordenadas de objeto
+    Textura * tex = new TexturaXY ("lata-pepsi.jpg");
+
+    // Material pseudo-especular
+    Material * Material2 = new Material(tex,0.8,0.8,15.0,140.0);
+
     agregar(new PlataformaCuadrada());
+    agregar(Material2);
     agregar(MAT_Escalado(0.5,1,0.5));
     agregar(MAT_Traslacion({0.87,0.35,0.87}));
     agregar(new Cilindro(10,40));
@@ -99,23 +112,25 @@ void PlataformaDesplazante::actualizarEstadoParametro( const unsigned iParam, co
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 PlataformaArriba::PlataformaArriba()
 {
+
+    
     //21
     agregar(MAT_Traslacion({0.0,-0.2,0.0}));
     agregar(MAT_Escalado(0.6,0.6,0.6));
     agregar(MAT_Traslacion({0.0,0,-3.5}));
-    agregar(new Cubo());
+    agregar(new Cubo24());
     agregar(MAT_Traslacion({0.0,0,3.0}));
-    agregar(new Cubo());
+    agregar(new Cubo24());
     agregar(MAT_Traslacion({0.0,0,2.0}));
-    agregar(new Cubo());
+    agregar(new Cubo24());
     agregar(MAT_Traslacion({0.0,0,2.0}));
-    agregar(new Cubo());
+    agregar(new Cubo24());
     agregar(MAT_Traslacion({0.0,0,2.0}));
-    agregar(new Cubo());
+    agregar(new Cubo24());
     agregar(MAT_Traslacion({0.0,0,2.0}));
-    agregar(new Cubo());
+    agregar(new Cubo24());
     agregar(MAT_Traslacion({0.0,0,2.0}));
-    agregar(new Cubo());
+    agregar(new Cubo24());
     agregar(MAT_Traslacion({-0.45,-0.7,-12.2}));
     agregar(new PlataformaCuadrada);
 

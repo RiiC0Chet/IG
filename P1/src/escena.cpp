@@ -14,7 +14,7 @@
 #include "modelo-jer.h"
 
 #include "Examen_1.h"
-
+#include "latapeones.h"
 
 
 // -----------------------------------------------------------------------------------------------
@@ -23,7 +23,8 @@ Escena::Escena()
 {
    // COMPLETAR: Práctica 4: inicializar 'col_fuentes' y 'material_ini'
    // ...
-
+   col_fuentes = new Col2Fuentes();
+   material_ini = new Material();
 
    // COMPLETAR: Práctica 5: hacer 'push_back' de varias camaras perspectiva u ortogonales,
    // (sustituir la cámara orbital simple ('CamaraOrbitalSimple') por varias cámaras de 3 modos ('Camara3Modos')
@@ -102,6 +103,11 @@ void Escena::visualizarGL( ContextoVis & cv )
       // * activar el material inicial
       // ....
 
+      cauce->fijarEvalMIL(true);
+      cauce->fijarEvalText(false);
+
+      col_fuentes->activar(*cauce);
+      material_ini->activar(cv);
    }
    else // si la iluminación no está activada, deshabilitar MIL y texturas
    {  cauce->fijarEvalMIL( false );
@@ -139,13 +145,13 @@ void Escena::visualizarGL( ContextoVis & cv )
       colorN            = { 0.0, 0.0, 0.0}; // color actual para visualización sin tabla de colores
 
       cv.cauce->fijarColor(colorN);
-      //cauce->fijarColor(colorN);
       glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
       objeto->visualizarGeomGL(cv);
    }
    
 
-
+   if ( cv.visualizar_normales && !cv.modo_seleccion )
+         visualizarNormales( cv );
 
 
 
@@ -153,6 +159,28 @@ void Escena::visualizarGL( ContextoVis & cv )
 }
 
 
+void Escena::visualizarNormales( ContextoVis & cv )
+{
+   // recuperar el objeto raiz de esta escena y comprobar que está ok.
+   bool ilum_ant = cv.iluminacion ;
+   assert( cv.cauce != nullptr );
+   Objeto3D * objeto = objetos[ind_objeto_actual] ; assert( objeto != nullptr );
+
+   // configurar el cauce:
+   cv.cauce->fijarEvalMIL( false );
+   cv.cauce->fijarEvalText( false );
+
+   // configurar el contexto de visualizacion
+   cv.visualizando_normales = true ;   // hace que MallaInd::visualizarGL visualize las normales.
+   cv.iluminacion           = false ;
+
+   // visualizar objeto actual
+   objetos[ind_objeto_actual]->visualizarGL( cv );
+
+   // restaurar atributos cambiados en el contexto de visualización
+   cv.visualizando_normales = false ;
+   cv.iluminacion = ilum_ant ;
+}
 
 // -----------------------------------------------------------------------------------------------
 // pasa la cámara actual a la siguiente
@@ -214,6 +242,7 @@ Escena1::Escena1()
 
    // añadir el objeto 'Cubo' a la lista de objetos de esta escena:
    objetos.push_back( new Cubo() );
+ 
 
    // COMPLETAR: Práctica 1: creación del resto objetos de la práctica 1
    // Añadir objetos al vector 'objetos', con:
@@ -289,7 +318,18 @@ Escena3::Escena3()
 // Añadir la implementación del constructor de la clase Escena4 para construir
 // los objetos que se indican en los guiones de las práctica 4
 // .......
-
+Escena4::Escena4()
+{
+   using namespace std ;
+   cout << "Creando objetos de escena 4 .... " << flush ;
+     objetos.push_back( new Cubo24() );
+      //objetos.push_back(new Lata());
+      //objetos.push_back(new PeonMadera());
+      //objetos.push_back(new PeonBlanco());
+      //objetos.push_back(new PeonNegro());
+      objetos.push_back(new LataPeones());
+      objetos.push_back(new Grua(0.0));
+}
 
 
 // ----------------------------------------------------------------------

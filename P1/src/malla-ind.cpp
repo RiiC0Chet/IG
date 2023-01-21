@@ -48,6 +48,18 @@ void MallaInd::calcularNormalesTriangulos()
 
    // COMPLETAR: Práctica 4: creación de la tabla de normales de triángulos
    // ....
+   
+   Tupla3f v_1,v_2,v_3;
+   for(int i=0;i<triangulos.size();i++)
+   {
+      v_1 = vertices[triangulos[i](1)] - vertices[triangulos[i](0)];
+      v_2 = vertices[triangulos[i](2)] - vertices[triangulos[i](0)];
+
+      v_3 = v_1.cross(v_2);
+
+      nor_tri.push_back(v_3.normalized());
+
+   }
 
 }
 
@@ -60,7 +72,25 @@ void MallaInd::calcularNormales()
    // COMPLETAR: en la práctica 4: calculo de las normales de la malla
    // se debe invocar en primer lugar 'calcularNormalesTriangulos'
    // .......
-
+   
+   calcularNormalesTriangulos();
+   
+   std::vector<Tupla3f> vertex_normals(vertices.size(), Tupla3f(0, 0, 0));
+   for (int i = 0; i < triangulos.size(); i++) 
+   {
+      Tupla3u t = triangulos[i];
+      vertex_normals[t[0]] = vertex_normals[t[0]] + nor_tri[i];
+      vertex_normals[t[1]] = vertex_normals[t[1]] + nor_tri[i];
+      vertex_normals[t[2]] = vertex_normals[t[2]] + nor_tri[i];
+   }
+   
+   for (int i = 0; i < vertex_normals.size(); i++) 
+   {
+      if(vertex_normals[i].lengthSq() > 0.0)
+         nor_ver.push_back(vertex_normals[i].normalized());
+      else
+         nor_ver.push_back(vertex_normals[i]);
+   }
 
 }
 
@@ -73,6 +103,12 @@ void MallaInd::visualizarGL( ContextoVis & cv )
    using namespace std ;
    assert( cv.cauce != nullptr );
    CError();
+
+   if ( cv.visualizando_normales )
+   {  
+      visualizarNormales( cv );
+      return ;
+   }
 
    if ( triangulos.size() == 0 || vertices.size() == 0 )
    {  cout << "advertencia: intentando dibujar malla vacía '" << leerNombre() << "'" << endl << flush ;
@@ -174,6 +210,34 @@ void MallaInd::visualizarGeomGL( ContextoVis & cv )
 }
 
 
+void MallaInd::visualizarNormales( ContextoVis & cv )
+{
+   using namespace std ;
+
+   if ( nor_ver.size() == 0 )
+   {
+      cout << "Advertencia: intentando dibujar normales de una malla que no tiene tabla (" << leerNombre() << ")." << endl ;
+      return ;
+   }  
+   if ( nombre_vao_normales == 0 )
+   {  
+      for( unsigned i = 0 ; i < vertices.size() ; i++ )
+      {  
+         segmentos_normales.push_back( vertices[i] );
+         segmentos_normales.push_back( vertices[i]+ 0.35f*(nor_ver[i]) );
+      }
+      nombre_vao_normales = CrearVAO();
+      CrearVBOAtrib( ind_atrib_posiciones, segmentos_normales );   
+   }
+   else 
+      glBindVertexArray( nombre_vao_normales );
+
+   cv.cauce->fijarColor( 1.0, 0.5, 0.2 ); // fijar el color (rojo), con el VAO activado.
+   glDrawArrays( GL_LINES, 0, segmentos_normales.size() );
+   glBindVertexArray( 0 );
+   CError();
+}
+
 // ****************************************************************************
 // Clase 'MallaPLY'
 
@@ -187,7 +251,7 @@ MallaPLY::MallaPLY( const std::string & nombre_arch )
 
    // COMPLETAR: práctica 4: invocar  a 'calcularNormales' para el cálculo de normales
    // .................
-
+   calcularNormales();
 }
 
 // ****************************************************************************
@@ -211,16 +275,114 @@ Cubo::Cubo()
 
 
    triangulos =
-      {  {0,1,3}, {0,3,2}, // X-
-         {4,7,5}, {4,6,7}, // X+ (+4)
+      {  
+         {3,1,0}, {3,2,0}, // X-
+         {7,5,4}, {7,6,4}, // X+ (+4)
 
-         {0,5,1}, {0,4,5}, // Y-
-         {2,3,7}, {2,7,6}, // Y+ (+2)
+         {5,1,0}, {5,4,0}, // Y-
+         {7,3,2}, {7,6,2}, // Y+ (+2)
 
-         {0,6,4}, {0,2,6}, // Z-
-         {1,5,7}, {1,7,3}  // Z+ (+1)
+         {6,4,0}, {6,2,0}, // Z-
+         {7,5,1}, {7,3,1}  // Z+ (+1)
       } ;
 
+      calcularNormales();
+
+}
+
+Cubo24::Cubo24(){
+   //ponerIdentificador(5); // práctica 5
+
+   vertices =
+      {
+         {+1.0, -1.0, +1.0}, // 0
+         {+1.0, +1.0, +1.0}, // 1
+         {+1.0, +1.0, -1.0}, // 2
+         {+1.0, -1.0, -1.0}, // 3
+
+
+         {-1.0, -1.0, +1.0}, // 4
+         {-1.0, +1.0, +1.0}, // 5
+         {+1.0, +1.0, +1.0}, // 6
+         {+1.0, -1.0, +1.0}, // 7
+
+
+         {-1.0, -1.0, -1.0}, // 8
+         {-1.0, +1.0, -1.0}, // 9
+         {-1.0, +1.0, +1.0}, // 10
+         {-1.0, -1.0, +1.0}, // 11
+
+         {+1.0, -1.0, -1.0}, // 12
+         {+1.0, +1.0, -1.0}, // 13
+         {-1.0, +1.0, -1.0}, // 14
+         {-1.0, -1.0, -1.0}, // 15
+
+
+         {+1.0, +1.0, +1.0}, // 16
+         {-1.0, +1.0, +1.0}, // 17
+         {-1.0, +1.0, -1.0}, // 18
+         {+1.0, +1.0, -1.0}, // 19
+
+         {+1.0, -1.0, +1.0}, // 20
+         {-1.0, -1.0, +1.0}, // 21
+         {-1.0, -1.0, -1.0}, // 22
+         {+1.0, -1.0, -1.0} // 23
+      };
+
+   triangulos =
+      {
+         {0, 3, 2},
+         {0, 2, 1},
+
+         {4, 7, 6},
+         {4, 6, 5},
+
+         {8, 11, 10},
+         {8, 10, 9},
+
+         {12, 15, 14},
+         {12, 14, 13},
+
+         {16, 19, 18},
+         {16, 18, 17},
+
+         {20, 23, 22},
+         {20, 22, 21}
+      };
+      
+   cc_tt_ver = {
+      {0.0, 1.0-0.0},
+      {0.0, 1.0-1.0},
+      {1.0, 1.0-1.0},
+      {1.0, 1.0-0.0},
+
+      {0.0, 1.0-0.0},
+      {0.0, 1.0-1.0},
+      {1.0, 1.0-1.0},
+      {1.0, 1.0-0.0},
+
+      {0.0, 1.0-0.0},
+      {0.0, 1.0-1.0},
+      {1.0, 1.0-1.0},
+      {1.0, 1.0-0.0},
+
+      {0.0, 1.0-0.0},
+      {0.0, 1.0-1.0},
+      {1.0, 1.0-1.0},
+      {1.0, 1.0-0.0},
+
+      {0.0, 1.0-0.0},
+      {0.0, 1.0-1.0},
+      {1.0, 1.0-1.0},
+      {1.0, 1.0-0.0},
+
+      {0.0, 1.0-0.0},
+      {0.0, 1.0-1.0},
+      {1.0, 1.0-1.0},
+      {1.0, 1.0-0.0}
+   };
+
+   calcularNormales();
 }
 
 // ****************************************************************************
@@ -248,17 +410,28 @@ CuboTejado::CuboTejado()
 
 
    triangulos =
-      {  {0,1,3}, {0,3,2}, // X-
-         {4,7,5}, {4,6,7}, // X+ (+4)
+      {  //{0,1,3}, {0,3,2}, // X-
+         //{4,7,5}, {4,6,7}, // X+ (+4)
 
-         {0,5,1}, {0,4,5}, // Y-
+         //{0,5,1}, {0,4,5}, // Y-
          //{2,3,7}, {2,7,6}, // Y+ (+2)   // quito cara superior
-         {2,3,8}, {3,7,8}, {7,6,8}, {6,2,8}, // añado tejado 
+         //{2,3,8}, {3,7,8}, {7,6,8}, {6,2,8}, // añado tejado 
 
-         {0,6,4}, {0,2,6}, // Z-
-         {1,5,7}, {1,7,3}  // Z+ (+1)
+         //{0,6,4}, {0,2,6}, // Z-
+         //{1,5,7}, {1,7,3}  // Z+ (+1)
+
+         {3,1,0}, {3,2,0}, // X-
+         {7,5,4}, {7,6,4}, // X+ (+4)
+
+         {5,1,0}, {5,4,0}, // Y-
+         //{2,3,7}, {2,7,6}, // Y+ (+2)   // quito cara superior
+         {8,3,2}, {8,7,3}, {8,7,6}, {8,6,2}, // añado tejado 
+
+         {6,4,0}, {6,2,0}, // Z-
+         {7,5,1}, {7,3,1}  // Z+ (+1)
+
       } ;
-
+      calcularNormales();
 }
 
 // -----------------------------------------------------------------------------------------------
@@ -277,10 +450,12 @@ Tetraedro::Tetraedro()
 
    triangulos =
       {  
-         {0,1,3}, {0,1,2}, {0,2,3}, {1,2,3}
+         {3,1,0}, {2,1,0}, {3,2,0}, {3,2,1}
       } ;
       ponerColor({0.0,0.0,0.0});
 
+   //calcularNormales();
+   std::cout<<"sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss"<<std::endl;
 }
 
 // -----------------------------------------------------------------------------------------------

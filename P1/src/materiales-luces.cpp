@@ -41,7 +41,8 @@ Textura::Textura( const std::string & nombreArchivoJPG )
    // El nombre del archivo debe ir sin el 'path', la función 'LeerArchivoJPG' lo 
    // busca en 'materiales/imgs' y si no está se busca en 'archivos-alumno'
    // .....
-
+   const char * Archivo = nombreArchivoJPG.c_str();
+   imagen = LeerArchivoJPEG(Archivo,ancho,alto);
 }
 
 // ---------------------------------------------------------------------
@@ -53,6 +54,37 @@ void Textura::enviar()
    // COMPLETAR: práctica 4: enviar la imagen de textura a la GPU
    // y configurar parámetros de la textura (glTexParameter)
    // .......
+   glGenTextures( 1, &ident_textura);
+   glActiveTexture( GL_TEXTURE0 );
+   glBindTexture( GL_TEXTURE_2D, ident_textura );
+
+   glTexImage2D
+   ( GL_TEXTURE_2D,           // GLenum target: tipo de textura.
+      0,                         // GLint level: nivel de mipmap.
+      GL_RGB,                    // GLint internalformat: formato de destino en GPU.
+      ancho,                     // GLsizei width: número de columnas de texels.
+      alto,                      // GLsizei height: numero de filas de texels.
+      0,                         // GLint border: borde, no se usa, se pone a 0.
+      GL_RGB,                    // GLenum format: formato origen en memoria apl.
+      GL_UNSIGNED_BYTE,          // GLenum type: tipo valores.
+      imagen                     // const void * data: puntero a texels en memoria apl.
+   );
+
+    // generar mipmaps (versiones a resolución reducida)
+   glGenerateMipmap( GL_TEXTURE_2D );
+
+   
+   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+   glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
+
+   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+   glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_LINEAR );
+
+   glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT );
+   glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT );
+
+   
+   enviada = true;
 
 }
 
@@ -77,7 +109,41 @@ void Textura::activar( Cauce & cauce  )
    // COMPLETAR: práctica 4: enviar la textura a la GPU (solo la primera vez) y activarla
    // .......
 
+   if(!enviada) enviar();
+
+   cauce.fijarEvalText(enviada,ident_textura);
+   cauce.fijarTipoGCT(modo_gen_ct,coefs_s,coefs_t);
+
+
 }
+// *********************************************************************
+
+TexturaXY::TexturaXY(const std::string & nom) : Textura(nom)
+{
+   modo_gen_ct = ModoGenCT::mgct_coords_objeto;
+   coefs_s[0] = 1.0f;
+   coefs_s[1] = 0.0f;
+   coefs_s[2] = 0.0f;
+   coefs_s[3] = 0.0f;
+   coefs_t[0] = 0.0f;
+   coefs_t[1] = 1.0f;
+   coefs_t[2] = 0.0f;
+   coefs_t[3] = 0.0f;
+}
+
+TexturaXZ::TexturaXZ(const std::string & nom) : Textura(nom)
+{
+   modo_gen_ct = ModoGenCT::mgct_coords_objeto;
+   coefs_s[0] = 1.0f;
+   coefs_s[1] = 0.0f;
+   coefs_s[2] = 0.0f;
+   coefs_s[3] = 0.0f;
+   coefs_t[0] = 0.0f;
+   coefs_t[1] = 0.0f;
+   coefs_t[2] = 1.0f;
+   coefs_t[3] = 0.0f;
+}
+
 // *********************************************************************
 // crea un material usando un color plano y los coeficientes de las componentes
 
@@ -131,6 +197,15 @@ void Material::activar( ContextoVis & cv )
    // COMPLETAR: práctica 4: activar un material
    // .....
 
+   if(textura != nullptr)
+   {
+      assert(k_pse >= 1);
+      textura->activar(*(cv).cauce);
+   }
+   else
+      cv.cauce->fijarEvalText(false);
+
+   cv.cauce->fijarParamsMIL(k_amb,k_dif,k_pse,exp_pse);
 
    // registrar el material actual en el cauce
    cv.material_act = this ; 
@@ -194,6 +269,21 @@ void ColFuentesLuz::activar( Cauce & cauce )
    //   - usar el método 'fijarFuentesLuz' del cauce para activarlas
    // .....
 
+   std::vector<Tupla3f> colores;
+   std::vector<Tupla4f> posiciones;
+
+   Tupla4f punto = {0.0,0.0,1.0,0.0};
+
+   for(int i=0;i<vpf.size();i++)
+   {
+      punto = MAT_Rotacion(-vpf.at(i)->lati,{1.0,0.0,0.0})*punto;
+      punto = MAT_Rotacion(vpf.at(i)->longi,{0.0,1.0,0.0})*punto;
+
+      posiciones.push_back(punto);
+      colores.push_back(vpf.at(i)->color);
+   }
+
+   cauce.fijarFuentesLuz(colores, posiciones);
 }
 
 // ---------------------------------------------------------------------

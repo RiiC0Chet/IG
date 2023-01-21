@@ -155,6 +155,13 @@ class GrafoCuboX : public NodoGrafoEscena
 
 };
 
+class NodoCubo24 : public NodoGrafoEscena
+{
+   public:
+   NodoCubo24();
+
+};
+
 #endif // GRAFO_ESCENA_HPP
 
 // *********************************************************************

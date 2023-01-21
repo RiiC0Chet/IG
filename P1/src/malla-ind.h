@@ -43,6 +43,8 @@ class MallaInd : public Objeto3D
 
       GLenum nombre_vao_geo     = 0 ; // nombre del VAO geometria
 
+      std::vector<Tupla3f> segmentos_normales ;   // dos tuplas por cada segmento (extremos)
+      GLenum nombre_vao_normales = 0 ;            // nombre del VAO con los segmentos de normales.
 
 
       // normales de triángulos y vértices
@@ -51,7 +53,7 @@ class MallaInd : public Objeto3D
       // calculo de las normales de triángulos (solo si no están creadas ya)
       void calcularNormalesTriangulos() ;
 
-
+      void visualizarNormales( ContextoVis & cv );
 
    public:
       // crea una malla vacía (nombre: "malla indexada nueva vacía")
@@ -66,6 +68,7 @@ class MallaInd : public Objeto3D
       // visualizar pura y simplemente la geometría, sin colores, normales, coord. text. etc...
       // (se supone que el estado de OpenGL está fijado antes de esta llamada de alguna forma adecuada)
       virtual void visualizarGeomGL( ContextoVis & cv ) ;
+      
       
 
 
@@ -90,17 +93,18 @@ class Cubo : public MallaInd
       Cubo();
 };
 
+class Cubo24 : public MallaInd
+{
+   public:
+      Cubo24();
+};
+
 class CuboTejado : public MallaInd
 {
    public:
       CuboTejado();
 };
 
-class Cubo24 : public MallaInd
-{
-  public:
-      Cubo24();
-} ;
 
 class Tetraedro : public MallaInd
 {

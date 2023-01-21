@@ -81,6 +81,8 @@ class Escena
 
    // índice del objeto activo (en el vector 'objetos')
    unsigned ind_objeto_actual = 0 ;
+
+   void visualizarNormales( ContextoVis & cv );
 } ;
 
 
@@ -110,6 +112,12 @@ class Escena3 : public Escena
 {
    public:
       Escena3() ;
+} ;
+
+class Escena4 : public Escena
+{
+   public:
+      Escena4() ;
 } ;
 
 class EscenaExamen : public Escena
