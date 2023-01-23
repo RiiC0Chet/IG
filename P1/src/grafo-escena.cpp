@@ -250,6 +250,24 @@ void NodoGrafoEscena::calcularCentroOC()
    //    en coordenadas de objeto (hay que hacerlo recursivamente)
    //   (si el centro ya ha sido calculado, no volver a hacerlo)
    // ........
+   if(centro_calculado) return;
+
+   int num_hijos = 0;
+   Matriz4f mmodelado = MAT_Ident();
+   Tupla3f centro_aux = {0.0,0.0,0.0};
+
+   for(uint i = 0; i < entradas.size(); i++){
+      if(entradas[i].tipo == TipoEntNGE::transformacion ){
+         mmodelado = mmodelado * (*entradas[i].matriz);
+      }
+      if(entradas[i].tipo == TipoEntNGE::objeto ){
+         entradas[i].objeto->calcularCentroOC();
+         centro_aux = centro_aux + (mmodelado * entradas[i].objeto->leerCentroOC());
+         num_hijos++;
+      }
+   }
+   ponerCentroOC(centro_aux/float(num_hijos));
+   centro_calculado = true;
 
 }
 // -----------------------------------------------------------------------------
@@ -265,22 +283,36 @@ bool NodoGrafoEscena::buscarObjeto
 {
    assert( 0 < ident_busc );
 
-   // COMPLETAR: práctica 5: buscar un sub-objeto con un identificador
+// COMPLETAR: práctica 5: buscar un sub-objeto con un identificador
    // Se deben de dar estos pasos:
+
+   Matriz4f mmodelado_aux = mmodelado;
 
    // 1. calcula el centro del objeto, (solo la primera vez)
    // ........
-
+   calcularCentroOC();
 
    // 2. si el identificador del nodo es el que se busca, ya está (terminar)
    // ........
-
-
+   if(leerIdentificador() == ident_busc){
+      *objeto = this;
+      centro_wc = mmodelado*leerCentroOC();
+      return true;
+   }
    // 3. El nodo no es el buscado: buscar recursivamente en los hijos
    //    (si alguna llamada para un sub-árbol lo encuentra, terminar y devolver 'true')
    // ........
-
-
+   else{
+      for(uint i = 0; i < entradas.size(); i++){
+         if(entradas[i].tipo == TipoEntNGE::transformacion ){
+            mmodelado_aux = mmodelado_aux * (*entradas[i].matriz);
+         }
+         if(entradas[i].tipo == TipoEntNGE::objeto){
+            if(entradas[i].objeto->buscarObjeto(ident_busc, mmodelado_aux, objeto, centro_wc))
+               return true;
+         }
+      }
+   }
    // ni este nodo ni ningún hijo es el buscado: terminar
    return false ;
 }
@@ -510,6 +542,72 @@ void GrafoCubos::actualizarEstadoParametro( const unsigned iParam, const float t
 NodoCubo24::NodoCubo24()
 {
    
+}
+
+//---------------------------------------------------------------------------------------
+
+NodoDiscoP4::NodoDiscoP4()
+{
+   Textura * tex = new Textura("cuadricula.jpg");
+   Material * mat = new Material(tex,0.8,0.8,1.0,1.0);
+
+   ponerNombre("Nodo ejercicio adicional práctica 4, examen 27 enero");
+
+   agregar(mat);
+   agregar( new MallaDiscoP4() );
+}
+
+//---------------------------------------------------------------------------------------
+GrafoEsferasP5::GrafoEsferasP5()
+{
+   const unsigned n_filas_esferas = 8,
+                  n_esferas_x_fila = 5 ;
+
+   const float e = 0.4/n_esferas_x_fila ;
+   agregar( MAT_Escalado( e,e,e ));
+
+   for( unsigned i = 0 ; i < n_filas_esferas ; i++ )
+   {
+      NodoGrafoEscena * fila_esferas = new NodoGrafoEscena() ;
+
+      for( unsigned j = 0 ; j < n_esferas_x_fila ; j++ )
+      {
+         Esfera * esfera = new Esfera(15,15) ;
+         fila_esferas->agregar( MAT_Traslacion( {2.2, 0.0, 0.0 }));
+         esfera->ponerIdentificador(((i*n_esferas_x_fila)+j)+1);
+         fila_esferas->agregar( esfera );
+      }
+      agregar( fila_esferas );
+      agregar( MAT_Traslacion( {0.0, 0.0, 5.0 }));
+      
+   }
+}
+//---------------------------------------------------------------------------------------
+
+GrafoEsferasP5_2::GrafoEsferasP5_2()
+{
+   const unsigned n_filas_esferas = 8,
+                  n_esferas_x_fila = 5 ;
+   const float e = 2.5/n_esferas_x_fila ;
+
+   agregar( MAT_Escalado( e, e, e ));
+
+   for( unsigned i = 0 ; i < n_filas_esferas ; i++ )
+   {
+      NodoGrafoEscena * fila_esferas = new NodoGrafoEscena() ;
+      fila_esferas->agregar( MAT_Traslacion( {3.0, 0.0, 0.0 }));
+
+      for( unsigned j = 0 ; j < n_esferas_x_fila ; j++ )
+      {
+         Esfera * esfera = new Esfera(15,20) ;
+         fila_esferas->agregar( MAT_Traslacion({ 2.5, 0.0, 0.0 }));
+         esfera->ponerIdentificador(((i*n_esferas_x_fila)+j)+1);
+         fila_esferas->agregar( esfera );
+      }
+
+      agregar( fila_esferas );
+      agregar( MAT_Rotacion( 360.0/n_filas_esferas, { 0.0, 1.0, 0.0 }));
+   }
 }
 
 //---------------------------------------------------------------------------------------

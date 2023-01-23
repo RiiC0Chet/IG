@@ -30,6 +30,19 @@ Escena::Escena()
    // (sustituir la cámara orbital simple ('CamaraOrbitalSimple') por varias cámaras de 3 modos ('Camara3Modos')
    camaras.push_back( new CamaraOrbitalSimple() );
 
+   /* (1) tipo de proyección (perspectiva u ortográfica), (2) origen del marco de cámara (posición del observador), 
+      (3) ratio del viewport (alto/ancho), (4) punto de atención y
+      (5) apertura vertical de campo (en grados)
+   */
+  
+   // El 0.00000001f es importante porque si no  dacore, motivo: Ni idea, pone algo del normalized, pero nonsense, supongo que es por el problema de las aplicaciones continuas en una esfera
+   camaras.push_back(new Camara3Modos(false,{3.0f, 0.0f, 0.0f}, 3.0f, {0.0f, 0.0f, 0.0f}, 70.0f));          // Perspectiva perfil
+   camaras.push_back(new Camara3Modos(false,{0.00000001f, 2.0f, 0.0f}, 3.0f, {0.0f, 0.0f, 0.0f}, 70.0f));   // Perspectiva planta   
+   camaras.push_back(new Camara3Modos(false,{0.0f, 0.0f, 3.0f}, 3.0f, {0.0f, 0.0f, 0.0f}, 70.0f));          // Perspectiva alzado 
+   camaras.push_back(new Camara3Modos(true,{3.0f, 0.0f, 0.0f}, 3.0f, {0.0f, 0.0f, 0.0f}));                  // ortográfica perfil
+   camaras.push_back(new Camara3Modos(true,{0.00000001f, 2.0f, 0.0f}, 3.0f, {0.0f, 0.0f, 0.0f}));           // Ortográfica planta
+   camaras.push_back(new Camara3Modos(true,{0.0f, 0.0f, 3.0f}, 3.0f, {0.0f, 0.0f, 0.0f}));                  // Ortográfica alzado
+
 }
 // -----------------------------------------------------------------------------------------------
 // visualiza la escena en la ventana actual, usando la configuración especificada en 'cv'
@@ -337,13 +350,22 @@ Escena4::Escena4()
 // Añadir la implementación del constructor de la clase Escena5 para construir
 // los objetos que se indican en los guiones de las práctica 5
 // .......
-
+Escena5::Escena5()
+{
+   using namespace std ;
+   cout << "Creando objetos de escena 4 .... " << flush ;
+     objetos.push_back( new VariasLatasPeones() );
+     objetos.push_back(new Grua(0.0));
+     objetos.push_back(new GrafoEsferasP5());
+     objetos.push_back(new GrafoEsferasP5_2());
+}
 // ----------------------------------------------------------------------
 
 EscenaExamen::EscenaExamen()
 {
    using namespace std ;
    cout << "Creando objetos de escena examen .... " << flush ;
-   objetos.push_back(new VaritaFinal());
-   objetos.push_back(new SoporteFinal(6));
+   objetos.push_back(new NodoDiscoP4());
+   //objetos.push_back(new VaritaFinal());
+   //objetos.push_back(new SoporteFinal(6));
 }

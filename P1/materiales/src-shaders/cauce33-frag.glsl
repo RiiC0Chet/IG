@@ -91,19 +91,18 @@ vec3 NormalTriangulo()
 }
 // -----------------------------------------------------------------------------------------------
 // Calcula el vector normal, normalizado
-
-vec3 Normal()
+// (si u_usar_normales_tri está activado, se usa la normal del triángulo, igual en todos los pixels)
+// en cualquier caso devuelve la normal que apunta hacia el observador, segun 'vec_obs'
+//
+vec3 Normal( vec3 vec_obs_ecc )
 {
-   vec3 n ;
-   if ( u_usar_normales_tri )
-      n = NormalTriangulo() ;
-   else
-      n = normalize( v_normal_ecc );
+   vec3 n = u_usar_normales_tri ? NormalTriangulo() 
+                                : normalize( v_normal_ecc );
 
-   if ( gl_FrontFacing )
-      return n ;
-   else
-      return -n ;
+   return dot(n,vec_obs_ecc) >= 0.0  ? n : -n ;
+
+   // no usar 'gl_FrontFacing', depende de una orientación específica de los triángulos
+   //return gl_FrontFacing ? n :-n ;
 }
 // -----------------------------------------------------------------------------------------------
 // vector normalizado en la dirección de la i-ésima fuente de luz
@@ -121,9 +120,9 @@ vec3 VectorHaciaFuente( int i )
 
 vec3 EvalMIL(  vec3 color_obj )
 {
-   vec3 n        = Normal(),              // vector normal, normalizado
-        v        = VectorHaciaObs() ,     // vector hacia el observador, normalizado
-        col_suma = vec3( 0.0, 0.0, 0.0 ); // suma de los colores debidos a cada fuente de luz
+   vec3  v = VectorHaciaObs() ;  // vector hacia el observador (en ECC), normalizado
+   vec3  n = Normal(v);          // vector normal (en ECC), normalizado, apuntando hacia el lado de 'v'
+   vec3  col_suma = vec3( 0.0, 0.0, 0.0 ); // suma de los colores debidos a cada fuente de luz
 
    // para cada fuente de luz, sumar en 's' el color debido a esa fuente:
    for( int i = 0 ; i < u_num_luces ; i++ )

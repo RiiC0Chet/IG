@@ -70,6 +70,9 @@ PilarGrua::PilarGrua()
     agregar(new Cilindro(10,40));
     this->ponerColor({0.9,0.1,0.5});
 
+    ponerNombre("Pilar Grua");
+    ponerIdentificador(1);
+
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -136,14 +139,17 @@ PlataformaArriba::PlataformaArriba()
 
     agregar(MAT_Traslacion({0.2,-0.6,8.3}));
     
-
-    this->ponerColor({0.1,0.2,0.8});
+    // Se lo quitamos para que no pete en la practica 5
+    //this->ponerColor({0.1,0.2,0.8});
 
     int desplazamiento = agregar(MAT_Traslacion({0.0,0.0,0.0}));
     plataforma_desplazante = new PlataformaDesplazante();
     agregar(plataforma_desplazante);
 
     pm_tras = leerPtrMatriz(desplazamiento);
+
+    ponerNombre("Plataforma Arriba");
+    ponerIdentificador(2);
 }
 
 unsigned PlataformaArriba::leerNumParametros() const 
@@ -161,6 +167,7 @@ void PlataformaArriba::actualizarEstadoParametro( const unsigned iParam, const f
             plataforma_desplazante->actualizarEstadoParametro(iParam,t_sec);
         break;
         case 1:
+            // 1.8 son las oscilaciones por segundo, mientras que el 4 es la amplitud
             float desplazamiento = -1*4*sin(t_sec/1.8);
             *pm_tras = MAT_Traslacion({0.0,0.0,desplazamiento});
         break;

@@ -173,4 +173,11 @@ class CuboEstrella : public MallaInd
    public:
    CuboEstrella();
 };
+
+// -----------------------------Ejercicio adicional P4----------------------------------------
+class MallaDiscoP4 : public MallaInd
+{
+   public:
+   MallaDiscoP4();
+};
 #endif

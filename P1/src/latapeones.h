@@ -6,7 +6,7 @@
 class Lata : public NodoGrafoEscena
 {
     public: 
-    Lata();
+    Lata(std::string archivo);
 };
 
 class PeonMadera : public NodoGrafoEscena
@@ -33,5 +33,10 @@ class LataPeones : public NodoGrafoEscena
     LataPeones();
 };
 
+class VariasLatasPeones : public NodoGrafoEscena
+{
+    public: 
+    VariasLatasPeones();
+};
 
 #endif // GRAFO_ESCENA_HPP

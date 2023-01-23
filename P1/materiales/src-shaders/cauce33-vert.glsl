@@ -52,12 +52,11 @@ uniform sampler2D u_tex ;         // al ser el primer 'sampler', está ligado a 
 
 layout( location = 0 ) in vec3 in_posicion_occ ;   // posición del vértice en coordenadas de objeto
 layout( location = 1 ) in vec3 in_color ;          // color del vértice
-layout( location = 2 ) in vec3 in_normal  ;        // normal del vértice 
+layout( location = 2 ) in vec3 in_normal_occ  ;    // normal del vértice 
 layout( location = 3 ) in vec2 in_coords_textura ; // coordenadas de textura del vértice 
 
 // Valores calculados como salida ('out' aquí, 'in' en el fragment shader, distintos de cada vértice)
 
-out vec4 v_position ;    // posicion del punto proyectado en NDC
 out vec4 v_posic_ecc ;   // posicion del punto (en coords de camara)
 out vec4 v_color ;       // color del vértice (interpolado a los pixels)
 out vec3 v_normal_ecc;   // normal  (en coords. de cámara)
@@ -82,17 +81,31 @@ vec2 CoordsTextura() // calcula las coordenadas de textura
 
    return vec2( dot(pos_ver,u_coefs_s), dot(pos_ver,u_coefs_t) );
 }
+
+// ------------------------------------------------------------------------------
+// devuelve el vector al obervador, a partir de pos. ECC, y en función de 
+// si la matriz de proyec. es ortogonal (a==0), o es perspectiva (a==-1)
+
+vec3 VectorObservadorVS( vec4 pos_ecc )
+{
+   float a = u_mat_proyeccion[2][3] ;
+   if ( a >= -0.1 )
+      return vec3( 0.0, 0.0, 1.0 );
+   else 
+      return (-pos_ecc).xyz ;
+}
 // ------------------------------------------------------------------------------
 
 void main()
 {
    vec4 posic_wcc  = u_mat_modelado * vec4( in_posicion_occ, 1.0 ) ; // posición del vértice en coords. de mundo
-   vec3 normal_wcc = (u_mat_modelado_nor * vec4(in_normal,0)).xyz ;
+   vec3 normal_wcc = (u_mat_modelado_nor * vec4(in_normal_occ,0)).xyz ;
 
    // calcular las variables de salida
    v_posic_ecc    = u_mat_vista*posic_wcc ;
    v_normal_ecc   = (u_mat_vista*vec4(normal_wcc,0)).xyz ;
-   v_vec_obs_ecc  = (-v_posic_ecc).xyz ;
+   //v_vec_obs_ecc  = (-v_posic_ecc).xyz ;
+   v_vec_obs_ecc  = VectorObservadorVS( v_posic_ecc );  // ver la función arriba
    v_color        = vec4( in_color, 1 ) ;  // color fijado con in_color .....
    v_coord_text   = CoordsTextura();
    
