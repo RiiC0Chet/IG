@@ -1,3 +1,5 @@
+// Nombre: Jose Luis Apellidos: Rico Ramos Titulación: GIADE
+// email: jlricoramos@correo.ugr.es DNI o pasaporte: 20080849D
 #ifndef LATAPEONES_HPP
 #define LATAPEONES_HPP
 
