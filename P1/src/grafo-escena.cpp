@@ -586,8 +586,8 @@ GrafoEsferasP5::GrafoEsferasP5()
 
 GrafoEsferasP5_2::GrafoEsferasP5_2()
 {
-   const unsigned n_filas_esferas = 8,
-                  n_esferas_x_fila = 5 ;
+   const unsigned n_filas_esferas = 16,
+                  n_esferas_x_fila = 1 ;
    const float e = 2.5/n_esferas_x_fila ;
 
    agregar( MAT_Escalado( e, e, e ));
@@ -595,11 +595,16 @@ GrafoEsferasP5_2::GrafoEsferasP5_2()
    for( unsigned i = 0 ; i < n_filas_esferas ; i++ )
    {
       NodoGrafoEscena * fila_esferas = new NodoGrafoEscena() ;
-      fila_esferas->agregar( MAT_Traslacion( {3.0, 0.0, 0.0 }));
+      fila_esferas->agregar( MAT_Traslacion( {1.0, 0.0, 0.0 }));
+      
+      // reducimos el radio
+      fila_esferas->agregar(MAT_Escalado(M_PI/n_filas_esferas,M_PI/n_filas_esferas,M_PI/n_filas_esferas));
 
       for( unsigned j = 0 ; j < n_esferas_x_fila ; j++ )
       {
          Esfera * esfera = new Esfera(15,20) ;
+
+         
          fila_esferas->agregar( MAT_Traslacion({ 2.5, 0.0, 0.0 }));
          esfera->ponerIdentificador(((i*n_esferas_x_fila)+j)+1);
          fila_esferas->agregar( esfera );
@@ -611,3 +616,46 @@ GrafoEsferasP5_2::GrafoEsferasP5_2()
 }
 
 //---------------------------------------------------------------------------------------
+
+EsferaEXP5::EsferaEXP5(int n)
+{
+   // reducimos el radio
+   agregar(MAT_Escalado(M_PI/n,M_PI/n,M_PI/n));
+   agregar(new Esfera(15,20));
+}
+
+
+AnilloEXP5::AnilloEXP5(int n)
+{
+   assert(n>3);
+
+   const unsigned n_esferas_x_fila = 1 ;
+
+   for( unsigned i = 0 ; i < n ; i++ )
+   {
+      NodoGrafoEscena * fila_esferas = new NodoGrafoEscena() ;
+      fila_esferas->agregar( MAT_Traslacion( {1.0, 0.0, 0.0 }));
+
+      for( unsigned j = 0 ; j < n_esferas_x_fila ; j++ )
+      {
+         EsferaEXP5 * esfera = new EsferaEXP5(n) ;
+
+         esfera->ponerIdentificador(i+1);
+         fila_esferas->agregar( esfera );
+      }
+
+      agregar( fila_esferas );
+      agregar( MAT_Rotacion( 360.0/n, { 0.0, 1.0, 0.0 }));
+   }
+
+}
+
+
+NodoEXP4::NodoEXP4()
+{
+   Textura * tex = new Textura("textura-exp4-v2.jpg");
+   Material * mat = new Material (tex,0.5,0.5,0.5,80);
+
+   agregar(mat);
+   agregar(new MallaEXP4());
+}

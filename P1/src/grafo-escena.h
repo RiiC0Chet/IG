@@ -186,7 +186,28 @@ class GrafoEsferasP5_2 : public NodoGrafoEscena
    GrafoEsferasP5_2();
 
 };
+// ******************************* Examen P4,5**************************************
 
+class EsferaEXP5 : public NodoGrafoEscena
+{
+   public:
+   EsferaEXP5(int n);
+   bool seleccionada = false;
+};
+
+class AnilloEXP5 : public NodoGrafoEscena
+{
+   public:
+   AnilloEXP5( int n);
+
+};
+
+class NodoEXP4 : public NodoGrafoEscena
+{
+   public:
+   NodoEXP4();
+
+};
 
 #endif // GRAFO_ESCENA_HPP
 

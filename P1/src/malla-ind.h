@@ -180,4 +180,13 @@ class MallaDiscoP4 : public MallaInd
    public:
    MallaDiscoP4();
 };
+
+// -----------------------------Examen P4,5----------------------------------------
+
+class MallaEXP4 : public MallaInd
+{
+   public:
+   MallaEXP4();
+};
+
 #endif

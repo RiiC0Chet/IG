@@ -6,6 +6,7 @@
 #include "camara.h"
 #include "fbo.h"
 #include "seleccion.h"
+#include "grafo-escena.h"
 
 // framebuffer object usado para selección
 static Framebuffer * fbo = nullptr ;
@@ -147,9 +148,30 @@ bool Seleccion( int x, int y, Escena * escena, ContextoVis & cv_dib )
 
    if(escena->objetoActual()->buscarObjeto(ident_pixel, MAT_Ident(), &buscado, centro))
    {
-      escena->camaraActual()->mirarHacia(centro);
-      cout << "Objeto: " << buscado->leerNombre() << " con identificador: " << buscado->leerIdentificador() << " encontrado " << endl;
-      cout << "Se ha seleccionado la esfera número " << ((buscado->leerIdentificador()-1)%5)+1 << " de la fila numero " << (buscado->leerIdentificador()-1)/5 + 1 << endl;
+      EsferaEXP5 * pesf = dynamic_cast<EsferaEXP5 *> (buscado);
+
+      if(pesf == nullptr)
+      {
+         escena->camaraActual()->mirarHacia(centro);
+         cout << "Objeto: " << buscado->leerNombre() << " con identificador: " << buscado->leerIdentificador() << " encontrado " << endl;
+         cout << "Se ha seleccionado la esfera número " << ((buscado->leerIdentificador()-1)%5)+1 << " de la fila numero " << (buscado->leerIdentificador()-1)/5 + 1 << endl;
+      }
+      else
+      {
+         // Si estaba seleccionada, es decir que estaba roja, la ponemos a color blanco
+         if(pesf->seleccionada == true)
+         {
+            pesf->ponerColor({1.0,1.0,1.0});
+            pesf->seleccionada = false;
+         }
+         else
+         {
+            pesf->ponerColor({1.0,0.5,0.5});
+            pesf->seleccionada = true;
+         }
+            
+      }
+      
    }
    else
    { 

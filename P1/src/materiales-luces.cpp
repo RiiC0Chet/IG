@@ -199,7 +199,7 @@ void Material::activar( ContextoVis & cv )
 
    if(textura != nullptr)
    {
-      assert(k_pse >= 1);
+      //assert(k_pse >= 1);
       textura->activar(*(cv).cauce);
    }
    else

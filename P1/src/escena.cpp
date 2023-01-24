@@ -335,6 +335,7 @@ Escena4::Escena4()
 {
    using namespace std ;
    cout << "Creando objetos de escena 4 .... " << flush ;
+     objetos.push_back(new NodoEXP4());
      objetos.push_back( new Cubo24() );
       //objetos.push_back(new Lata());
       //objetos.push_back(new PeonMadera());
@@ -354,6 +355,7 @@ Escena5::Escena5()
 {
    using namespace std ;
    cout << "Creando objetos de escena 4 .... " << flush ;
+     objetos.push_back(new AnilloEXP5(16));
      objetos.push_back( new VariasLatasPeones() );
      objetos.push_back(new Grua(0.0));
      objetos.push_back(new GrafoEsferasP5());
